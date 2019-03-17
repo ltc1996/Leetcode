@@ -6,15 +6,15 @@
 
 
 - 示例1：
+
 ```
 example1
-
 ```
 
 - 示例2：
+
 ```
 example2
-
 ```
 说明：
 > - 
@@ -28,7 +28,6 @@ example2
 class Solution(object):
     # 用时ms
     pass
-    
 ```
 
 ## 最快解答：
@@ -36,5 +35,4 @@ class Solution(object):
 class Solution(object):
     # 用时ms
     pass
-
 ```
