@@ -16,7 +16,7 @@
 |  478 |  在圆内随机生成点              |**Python**|中等|    |
 |  537 | 复数乘法           |**Python**|中等|    |
 |  848 | 字母移位            |**Python**|中等|    |
-|  991 | 坏了的计算器            |**Python**|中等| 100% |
+|  991 | [坏了的计算器](https://github.com/ltc1996/Leetcode/blob/master/%E4%B8%AD%E7%AD%89/0991%20%E5%9D%8F%E4%BA%86%E7%9A%84%E8%AE%A1%E7%AE%97%E5%99%A8.md)            |**Python**|中等| 100% |
 | 1006 | 笨阶乘            |**Python**|中等|    |
 |---|----|**Python**|简单|    |
 |    1 |  两数之和              |**Python**|空|    |
@@ -28,7 +28,8 @@
 |   26 |  删除排序数组中的重复项              |**Python**|空|    |
 |   27 |  移除元素            |**Python**|简单|    |
 |   35 |  搜索插入位置            |**Python**|简单|    |
-|   58 |  [最后一个单词的长度](https://github.com/ltc1996/Leetcode/blob/master/简单/0058%20最后一个单词的长度.md)   |**Python**|简单|    |
+|   58 |  [最后一个单词的长度]
+(https://github.com/ltc1996/Leetcode/blob/master/简单/0058%20最后一个单词的长度.md)   |**Python**|简单|    |
 |   66 |  加一             |**Python**|空|    |
 |   67 |  二进制求和          |**Python**|简单|    |
 |   69 |  x的平方根       |**Python**|简单|    |
