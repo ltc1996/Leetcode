@@ -28,8 +28,7 @@
 |   26 |  删除排序数组中的重复项              |**Python**|空|    |
 |   27 |  移除元素            |**Python**|简单|    |
 |   35 |  搜索插入位置            |**Python**|简单|    |
-|   58 |  [最后一个单词的长度]
-(https://github.com/ltc1996/Leetcode/blob/master/简单/0058%20最后一个单词的长度.md)   |**Python**|简单|    |
+|   58 |  [最后一个单词的长度](https://github.com/ltc1996/Leetcode/blob/master/简单/0058%20最后一个单词的长度.md)   |**Python**|简单|    |
 |   66 |  加一             |**Python**|空|    |
 |   67 |  二进制求和          |**Python**|简单|    |
 |   69 |  x的平方根       |**Python**|简单|    |
