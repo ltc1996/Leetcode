@@ -12,6 +12,7 @@
 |  223 | 矩形面积            |**Python**|中等|    |
 |  260 |  只出现一次的数字III              |**Python**|中等|    |
 |  319 |  灯泡开关              |**Python**|中等|    |
+|  365 |  [水壶问题](https://github.com/ltc1996/Leetcode/blob/master/%E4%B8%AD%E7%AD%89/0365%20%E6%B0%B4%E5%A3%B6%E9%97%AE%E9%A2%98.md)              |**Python**|中等| 100%  |
 |  397 |  整数替换              |**Python**|中等|    |
 |  423 |  从英文中重建数字              |**Python**|中等|    |
 |  442 |  数组中重复的元素              |**Python**|中等|    |
