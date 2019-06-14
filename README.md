@@ -123,6 +123,7 @@
 |  836 |  [矩形重叠](https://github.com/ltc1996/Leetcode/blob/master/简单/0836%20矩形重叠.md)           |**Python**|简单|  100%  |
 |  859 |  [亲密字符串](https://github.com/ltc1996/Leetcode/blob/master/%E7%AE%80%E5%8D%95/0859%20%E4%BA%B2%E5%AF%86%E5%AD%97%E7%AC%A6%E4%B8%B2.md)           |**Python**|简单| 100%   |
 |  867 |  转置矩阵           |**Python**|简单|    |
+|  868 |  二进制间距              |**Python**|简单|    |
 |  876 |  链表的中间节点           |**C++/Python**|简单|    |
 |  896 |  单调数列           |**Python**|简单|    |
 |  905 |  按奇偶排序数组              |**Python**|简单|    |
