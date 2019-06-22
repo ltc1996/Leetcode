@@ -15,6 +15,7 @@
 |  223 | 矩形面积            |**Python**|中等|    |
 |  260 |  只出现一次的数字III              |**Python**|中等|    |
 |  319 |  灯泡开关              |**Python**|中等|    |
+|  343 | 整数拆分 |**C++/Python/Ruby**|中等|    |
 |  357 |  [计算各个位数不同的数字个数](https://github.com/ltc1996/Leetcode/blob/master/中等/0357%20计算各个位数不同的数字个数.md)              |**C++/Python**|中等| 100% |
 |  365 |  [水壶问题](https://github.com/ltc1996/Leetcode/blob/master/%E4%B8%AD%E7%AD%89/0365%20%E6%B0%B4%E5%A3%B6%E9%97%AE%E9%A2%98.md)              |**Python**|中等| 100%  |
 |  397 |  整数替换              |**Python**|中等|    |
