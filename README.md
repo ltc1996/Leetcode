@@ -24,10 +24,11 @@
 |  423 |  从英文中重建数字              |**Python**|中等|    |
 |  442 |  数组中重复的元素              |**Python**|中等|    |
 |  478 |  在圆内随机生成点              |**Python**|中等|    |
-|  537 | 复数乘法           |**Python**|中等|    |
-|  593 | 有效的正方形            |**Python**|中等|    |
-|  848 | 字母移位            |**Python**|中等|    |
-|  858 | [镜面反射](https://github.com/ltc1996/Leetcode/blob/master/中等/0858%20镜面反射.md)            |**Python**|中等| 100%   |
+|  537 |  复数乘法           |**Python**|中等|    |
+|  539 |  最小时间差           |**Python**|中等|    |
+|  593 |  有效的正方形            |**Python**|中等|    |
+|  848 |  字母移位            |**Python**|中等|    |
+|  858 |  [镜面反射](https://github.com/ltc1996/Leetcode/blob/master/中等/0858%20镜面反射.md)            |**Python**|中等| 100%   |
 |  991 | [坏了的计算器](https://github.com/ltc1996/Leetcode/blob/master/%E4%B8%AD%E7%AD%89/0991%20%E5%9D%8F%E4%BA%86%E7%9A%84%E8%AE%A1%E7%AE%97%E5%99%A8.md)            |**Python**|中等| 100% |
 | 1006 | 笨阶乘            |**Python**|中等|    |
 |---|----|       ----           |简单| --- |
