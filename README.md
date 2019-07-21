@@ -26,10 +26,13 @@
 |  397 |  整数替换              |**Python**|中等|    |
 |  423 |  从英文中重建数字              |**Python**|中等|    |
 |  442 |  数组中重复的元素              |**Python**|中等|    |
+|  451 |  根据字符出现频率排序            |**Python**|中等|    |
 |  478 |  在圆内随机生成点              |**Python**|中等|    |
 |  537 |  复数乘法           |**Python**|中等|    |
 |  539 |  最小时间差           |**Python**|中等|    |
 |  593 |  有效的正方形            |**Python**|中等|    |
+|  677 |  键值映射            |**Python**|中等|    |
+
 |  848 |  字母移位            |**Python**|中等|    |
 |  858 |  [镜面反射](https://github.com/ltc1996/Leetcode/blob/master/中等/0858%20镜面反射.md)            |**Python**|中等| 100%   |
 |  991 | [坏了的计算器](https://github.com/ltc1996/Leetcode/blob/master/%E4%B8%AD%E7%AD%89/0991%20%E5%9D%8F%E4%BA%86%E7%9A%84%E8%AE%A1%E7%AE%97%E5%99%A8.md)            |**Python**|中等| 100% |
@@ -136,11 +139,13 @@
 |  824 |  山羊拉丁文           |**Python**|简单|    |
 |  832 |  翻转图像           |**Python**|简单|    |
 |  836 |  [矩形重叠](https://github.com/ltc1996/Leetcode/blob/master/简单/0836%20矩形重叠.md)           |**Python**|简单|  100%  |
+|  844 |  比较含退格的字符串            |**Python**|简单|    |
 |  852 |  山峰数组的顶峰索引            |**Python**|简单|
 |  859 |  [亲密字符串](https://github.com/ltc1996/Leetcode/blob/master/%E7%AE%80%E5%8D%95/0859%20%E4%BA%B2%E5%AF%86%E5%AD%97%E7%AC%A6%E4%B8%B2.md)           |**Python**|简单| 100%   |
 |  867 |  转置矩阵           |**Python**|简单|    |
 |  868 |  二进制间距              |**Python**|简单|    |
 |  876 |  链表的中间节点           |**C++/Python**|简单|    |
+|  884 |  两句话中的不常见单词            |**Python**|中等|    |
 |  896 |  单调数列           |**Python**|简单|    |
 |  905 |  按奇偶排序数组              |**Python**|简单|    |
 |  917 |  仅仅反转字母           |**Python**|简单|    |
