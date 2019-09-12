@@ -127,6 +127,7 @@
 |  557 |  反转字符串中的单词III           |**Python**|简单|    |
 |  559 |  N叉树的最大深度           |**Python**|简单|    |
 |  561 |  数组拆分I           |**Python**|简单|    |
+|  566 |  重塑矩阵           |**Python**|简单|    |
 |  595 |  大的国家             |**SQL**|简单|    |
 |  598 |  [范围求和II](https://github.com/ltc1996/Leetcode/blob/master/简单/0598%20范围求和II.md)             |**C++/Python/Ruby**|简单| 100% |
 |  605 |  种花问题              |**Python**|简单|    |
