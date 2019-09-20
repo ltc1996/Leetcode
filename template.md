@@ -30,16 +30,9 @@ class Solution(object):
     pass
 ```
 
-```cpp
-// 
-```
-
 ## 最快解答：
 ``` python
 class Solution(object):
     # 用时ms
     pass
-```
-```cpp
-// 
 ```
