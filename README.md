@@ -16,6 +16,7 @@
 |   64 |  最小路径和            |**C++/Python/Ruby**|中等|    |
 |   75 |  颜色分类            |**Python**|中等|
 |   78 |  子集            |**Python**|中等|    |
+|   82 |  删除排序链表中的重复元素II            |**Python**|中等|    |
 |  120 |  三角形最小路径和            |**Python**|中等|    |
 |  151 |  翻转字符串里的单词            |**Python**|中等|    |
 |  165 | [比较版本号](https://github.com/ltc1996/Leetcode/blob/master/%E4%B8%AD%E7%AD%89/0165%20%E6%AF%94%E8%BE%83%E7%89%88%E6%9C%AC%E5%8F%B7.md)            |**Python**|中等| 100%   |
@@ -43,6 +44,7 @@
 |  856 |  括号的分数            |**Python**|中等|    |
 |  858 |  [镜面反射](https://github.com/ltc1996/Leetcode/blob/master/中等/0858%20镜面反射.md)            |**Python**|中等| 100%   |
 |  890 |  [查找和替换模式](https://github.com/ltc1996/Leetcode/blob/master/中等/0890%20查找和替换模式.md)            |**Python**|中等| 100%   |
+|  912 |  排序数组            |**C++/Python**|中等|
 |  921 |  使括号有效的最少添加            |**Python**|中等|
 |  931 |  下降路径最小和            |**Python/Ruby**|中等|
 |  991 | [坏了的计算器](https://github.com/ltc1996/Leetcode/blob/master/%E4%B8%AD%E7%AD%89/0991%20%E5%9D%8F%E4%BA%86%E7%9A%84%E8%AE%A1%E7%AE%97%E5%99%A8.md)            |**Python**|中等| 100% |
@@ -181,6 +183,7 @@
 | 1046 |  最后一块石头的重量              |**Python**|简单|       |
 | 1047 |  删除字符串中的所有相邻重复项              |**Python**|简单|       |
 | 1051 |  高度检查器              |**C++/Python/Ruby**|简单|       |
+| 1071 |  字符串的最大公因子  |**Python**|简单|    |
 | 1078 |  BigRam分词  |**Python**|简单|    |
 | 1103 |  分糖果II              |**C++/Python/Ruby**|简单|       |
 | 1108 |  IP地址无效化            |**Python**|简单|
