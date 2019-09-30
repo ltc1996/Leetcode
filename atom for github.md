@@ -9,8 +9,8 @@
     ```bash
     git init
     git remote add origin https://github.com/ltc1996/Leetcode.git
-    git push -u origin master
     git pull --rebase origin master
+    git push -u origin master
     ```
 4. open Atom, when folder become yellow
 
