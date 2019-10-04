@@ -49,6 +49,7 @@
 |  912 |  排序数组            |**C++/Python**|中等|
 |  921 |  使括号有效的最少添加            |**Python**|中等|
 |  931 |  下降路径最小和            |**Python/Ruby**|中等|
+|  986 |  区间列表的交集            |**Python**|中等|
 |  991 | [坏了的计算器](https://github.com/ltc1996/Leetcode/blob/master/%E4%B8%AD%E7%AD%89/0991%20%E5%9D%8F%E4%BA%86%E7%9A%84%E8%AE%A1%E7%AE%97%E5%99%A8.md)            |**Python**|中等| 100% |
 |  973 |  最接近原点的K个点            |**Python**|中等|
 | 1006 | 笨阶乘            |**Python**|中等|    |
