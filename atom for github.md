@@ -1,5 +1,6 @@
 ## Atom for GitHub
 
+### change my own repo
 1. download Git
 
 2. open folder in PC, Shift + right click to open `Git Bash`
@@ -15,3 +16,31 @@
 4. open Atom, when folder become yellow
 
 5. open folder, when `.git` and all file in PC
+
+
+### fork others repo
+1. click `fork` button in their repo
+
+2. click `clone`,  such as url = `https://github.com/ltc1996/other-repo-name.git`
+
+3. open folder and Bash `git clone url`
+
+4. check if the branch is `master`? and create a new work repo `work` via
+   
+   > `git branch -a`
+   
+   > `git checkout -b work master`
+
+5. make changes
+
+6. create remote repo `work` via
+
+    > `git push origin work`
+    
+    > `git branch -a`
+    
+    > `git add .` if add / rename files
+    
+7. the push `git push` + `first time to push` ? `--setup-stream oringin work` or `` 
+
+8。 open THEIR repo and `new pull request`
