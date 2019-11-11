@@ -44,3 +44,8 @@
 7. the push `git push` + `first time to push` ? `--setup-stream oringin work` or `` 
 
 8。 open THEIR repo and `new pull request`
+
+### html
+
+1. https://shields.io/
+2. https://simpleicons.org/
