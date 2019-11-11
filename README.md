@@ -1,4 +1,6 @@
-# Leetcode progress
+# LeetCode progress
+
+[![](https://img.shields.io/badge/LeetCode-241/1260-yellow.svg?style=social&logo=leetcode)](https://leetcode-cn.com/u/ltcccc/)
 
 | 序号 | 题目 |  语言 | 难度 | 速度 |
 |---:|:-----:| :-------:|:----------:|:------:|
