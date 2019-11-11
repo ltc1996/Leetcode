@@ -2,6 +2,9 @@
 
 [![](https://img.shields.io/badge/LeetCode-241/1260-yellow.svg?style=social&logo=leetcode)](https://leetcode-cn.com/u/ltcccc/)
 
+![https://shields.io/#/](https://img.shields.io/github/commit-activity/m/ltc1996/leetcode)
+![](https://img.shields.io/github/last-commit/ltc1996/leetcode)
+
 | 序号 | 题目 |  语言 | 难度 | 速度 |
 |---:|:-----:| :-------:|:----------:|:------:|
 |---|        ----| ---- |困难| --- |
