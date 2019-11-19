@@ -1,6 +1,6 @@
 # LeetCode progress
 
-[![](https://img.shields.io/badge/LeetCode-242/1260-yellow.svg?style=social&logo=leetcode)](https://leetcode-cn.com/u/ltcccc/)
+[![](https://img.shields.io/badge/LeetCode-244/1260-yellow.svg?style=social&logo=leetcode)](https://leetcode-cn.com/u/ltcccc/)
 
 ![](https://img.shields.io/github/commit-activity/y/ltc1996/leetcode)
 ![](https://img.shields.io/github/last-commit/ltc1996/leetcode)
@@ -189,7 +189,8 @@
 |  868 |  二进制间距              |**Python**|简单|    |
 |  872 |  叶子相似的树           |**Python**|简单|    |
 |  876 |  链表的中间节点           |**C++/Python**|简单|    |
-|  884 |  两句话中的不常见单词            |**Python**|中等|    |
+|  884 |  两句话中的不常见单词            |**Python**|简单|    |
+|  888 |  公平的糖果交换            |**C++**|简单|    |
 |  896 |  单调数列           |**Python**|简单|    |
 |  905 |  按奇偶排序数组              |**Python**|简单|    |
 |  912 |  卡牌分组           |**Python**|简单|    |
