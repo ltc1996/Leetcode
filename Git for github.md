@@ -1,4 +1,4 @@
-## Atom for GitHub
+## Git for GitHub
 
 ### change my own repo
 1. download Git
@@ -41,9 +41,17 @@
     
     > `git add .` if add / rename files
     
-7. the push `git push` + `first time to push` ? `--setup-stream oringin work` or `` 
+7. the push `git push` + `first time to push` ? `--setup-stream oringin work` : `` ;
 
-8。 open THEIR repo and `new pull request`
+8. open THEIR repo and `new pull request`
+
+### delete
+
+1. `git branch -a` / `git branch -r`  checkout all branch in local / remote
+
+2. `git branch -d local_branch1`  delete local branch
+
+3. `git push origin --delete remote_branch1` delete remote branch
 
 ### html
 
