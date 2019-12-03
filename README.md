@@ -1,6 +1,6 @@
 # LeetCode progress
 
-[![](https://img.shields.io/badge/LeetCode-251/1260-yellow.svg?style=social&logo=leetcode)](https://leetcode-cn.com/u/ltcccc/)
+[![](https://img.shields.io/badge/LeetCode-259/1260-yellow.svg?style=social&logo=leetcode)](https://leetcode-cn.com/u/ltcccc/)
 
 ![](https://img.shields.io/github/commit-activity/m/ltc1996/leetcode)
 ![](https://img.shields.io/github/last-commit/ltc1996/leetcode)
@@ -25,6 +25,7 @@
 |   78 |  子集            |**Python**|中等|    |
 |   82 |  删除排序链表中的重复元素II            |**Python**|中等|    |
 |  102 |  二叉树的层次遍历            |**Python**|中等|    |
+|  113 |  路径总和            |**Python**|中等|    |
 |  120 |  三角形最小路径和            |**Python**|中等|    |
 |  151 |  翻转字符串里的单词            |**Python**|中等|    |
 |  165 | [比较版本号](https://github.com/ltc1996/Leetcode/blob/master/%E4%B8%AD%E7%AD%89/0165%20%E6%AF%94%E8%BE%83%E7%89%88%E6%9C%AC%E5%8F%B7.md)            |**Python**|中等| 100%   |
