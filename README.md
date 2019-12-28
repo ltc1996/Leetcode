@@ -1,6 +1,6 @@
 # LeetCode progress
 
-[![](https://img.shields.io/badge/LeetCode-259/1260-yellow.svg?style=social&logo=leetcode)](https://leetcode-cn.com/u/ltcccc/)
+[![](https://img.shields.io/badge/LeetCode-300/1303-yellow.svg?style=social&logo=leetcode)](https://leetcode-cn.com/u/ltcccc/)
 
 ![](https://img.shields.io/github/commit-activity/m/ltc1996/leetcode)
 ![](https://img.shields.io/github/last-commit/ltc1996/leetcode)
@@ -12,8 +12,10 @@
 |  458 | 可怜的小猪        |**C++/Python**|困难|    |
 |  233 | 数字1的个数        |**Python**|困难|    |
 |  829 | 连续正数求和        |**C++/Python**|困难|    |
+|  926 | 原子的数量        |**C++/Python**|困难|    |
 | 5294 | 你能从盒子里获得的最大糖果数        |**Python**|困难|    |
 |---|----         | ---- |中等| --- |
+|    5 |  最长回文子串            |**C++/Python**|中等|    |
 |   11 |  盛水最多的容器            |**C++/Python/Ruby**|中等|    |
 |   17 |  电话号码的字母组合            |**Python**|中等|    |
 |   24 |  两两交互链表中的节点 |**Python**|中等|    |
@@ -23,8 +25,10 @@
 |   64 |  最小路径和            |**C++/Python/Ruby**|中等|    |
 |   71 |  简化路径            |**Python**|中等|
 |   75 |  颜色分类            |**Python**|中等|
+|   77 |  组合            |**Python**|中等|    |
 |   78 |  子集            |**Python**|中等|    |
 |   82 |  删除排序链表中的重复元素II            |**Python**|中等|    |
+|   90 |  子集II            |**Python**|中等|    |
 |  102 |  二叉树的层次遍历            |**Python**|中等|    |
 |  113 |  路径总和            |**Python**|中等|    |
 |  120 |  三角形最小路径和            |**Python**|中等|    |
@@ -118,6 +122,7 @@
 |  202 |  快乐数              |**Python**|简单|    |
 |  203 |  移除链表元素              |**C++/Python**|简单|    |
 |  205 |  同构字符串              |**Python**|简单|    |
+|  206 |  反转链表              |**Python**|简单|    |
 |  215 |  数组中的第K个最大元素              |**Python**|空|    |
 |  217 |  存在重复元素           |**Python**|空|    |
 |  226 |  翻转二叉树              |**Python**|简单|    |
@@ -152,6 +157,7 @@
 |  441 |  排列硬币              |**Python**|简单|    |
 |  448 |  找到所有数组中消失的元素              |**Python**|简单|    |
 |  453 |  最少移动次数使元素相等              |**Python**|空|    |
+|  459 |  重复的子字符串              |**Python**|简单|    |
 |  461 |  汉明距离              |**Python**|空|    |
 |  463 |  岛屿的周长              |**Python**|简单|    |
 |  476 |  数字的补数              |**Python**|简单|    |
