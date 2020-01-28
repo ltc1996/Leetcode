@@ -1,6 +1,6 @@
 # LeetCode progress
 
-[![](https://img.shields.io/badge/LeetCode-300/1303-yellow.svg?style=social&logo=leetcode)](https://leetcode-cn.com/u/ltcccc/)
+[![](https://img.shields.io/badge/LeetCode-334/1303-yellow.svg?style=social&logo=leetcode)](https://leetcode-cn.com/u/ltcccc/)
 
 ![](https://img.shields.io/github/commit-activity/m/ltc1996/leetcode)
 ![](https://img.shields.io/github/last-commit/ltc1996/leetcode)
@@ -21,6 +21,7 @@
 |   15 | [三数之和](中等/0015%20三数之和.md) | **Python** | 中等 |
 |   17 | [电话号码的字母组合](中等/0017%20电话号码的字母组合.md) | **Python** | 中等 |
 |   24 | [两两交互链表中的节点](中等/0024%20两两交互链表中的节点.md) | **Python** | 中等 |
+|   40 | [组合总和II](中等/0040%20组合总和II.md) | **Python** | 中等 |
 |   56 | [合并区间](中等/0056%20合并区间.md) | **Python** | 中等 |
 |   62 | [不同路径](中等/0062%20不同路径.md) | **C++/Python** | 中等 |
 |   63 | [不同路径II](中等/0063%20不同路径II.md) | **C++/Python** | 中等 |
