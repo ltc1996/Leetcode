@@ -1,6 +1,6 @@
 # LeetCode progress
 
-[![](https://img.shields.io/badge/LeetCode-334/1303-yellow.svg?style=social&logo=leetcode)](https://leetcode-cn.com/u/ltcccc/)
+[![](https://img.shields.io/badge/LeetCode-344/1303-yellow.svg?style=social&logo=leetcode)](https://leetcode-cn.com/u/ltcccc/)
 
 ![](https://img.shields.io/github/commit-activity/m/ltc1996/leetcode)
 ![](https://img.shields.io/github/last-commit/ltc1996/leetcode)
