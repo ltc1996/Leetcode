@@ -183,27 +183,36 @@ def update_info(dict_old, dict_new):
     :param dict_new:
     :return:
     """
-    for diff, statement in dict_new.items():
-        dict_old[diff].append(statement)
+    brand_dict = dict()
+    for diff in dict_new:
+        dict_old[diff] += dict_new[diff]
+
     if '空' in dict_old:
         if '简单' in dict_old:
             dict_old['简单'] += dict_old['空']
-            del dict_old['空']
-    print(dict_old)
+        del dict_old['空']
+
+    for k in dict_old:
+        brand_dict[k] = sorted(dict_old[k])
+
+    # print(brand_dict)
+    return brand_dict
 
 
 def set_readme(progress_dict, count):
     file_path = 'README_test.md'
+    # new record
     print('set README.md, add statement * {}'.format(str(count)))
+    # all records now
+    count_now = sum([len(progress_dict[k]) for k in progress_dict])
+    title_now = TITLE.format(count_now)
     with open(file_path, 'w', encoding='utf-8') as f:
-        title_now = TITLE.format(count)
-        print(title_now)
         f.write(title_now)
         for diff in progress_dict:
             diff_sep = DIFF_SEP.format(diff)
             f.write(diff_sep)
             for statement in progress_dict[diff]:
-                f.write(statement)
+                f.write(statement + '\n')
 
     print('set README.md √')
 
@@ -248,7 +257,7 @@ def make_lang(langs):
             **C++/Python**
     """
     sorted(langs)  # key=lambda x: LANG[x], reverse=True)
-    res = [LANG[lang] if lang in langs else 'nil' for lang in langs]
+    res = [LANG[lang] if lang in langs else lang for lang in langs]
     ls = '/'.join(res)
     return ls
 
@@ -280,6 +289,9 @@ def make_statement(info_dict):
 def main():
     untrack, add = file_change()
     files = untrack + add
+    file_path = 'README_test.md'
+    if os.path.exists(file_path):
+        os.remove(file_path)
     if len(files):
         print('发现文件:\n')
         for file in files:
@@ -289,15 +301,18 @@ def main():
             progress_dict, progress_count = get_readme()
             # print(progress_count, progress_dict)
 
-            # to_append = defaultdict(list)
+            to_append = defaultdict(list)
             for file in files:
                 info = get_md_info(file)
                 # print(info)
                 s, diff = make_statement(info)      # all statement, its difficulty
                 print(s, diff)
-                # progress_dict[diff].append(s)
+                to_append[diff].append(s)
+            # print(to_append)
+            record_curr = update_info(progress_dict, to_append)
+            print(record_curr)
             # print(progress_dict)
-            # set_readme({}, 0)
+            set_readme(record_curr, len(files))
             # push()
         else:
             print('提交取消 ×')
@@ -310,7 +325,6 @@ def main():
 
 if __name__ == '__main__':
     main()
-    # print(file_change())
 
     # change_md()
     # l = get_md_info(r'D:\Charge\444\中等\0222 完全二叉树的节点个数.md')
