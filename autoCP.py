@@ -6,10 +6,9 @@ import git
 
 import time
 from datetime import datetime
+from collections import defaultdict
 
 LOCAL = os.path.dirname(__file__)
-
-PATTERN = '| {} | {} | **{}** | {} |'
 
 LANG = {
     'c': 'C',
@@ -22,6 +21,29 @@ LANG = {
     'golang': 'Go',
     'swift': 'Swift',
 }
+
+TITLE = """
+# LeetCode progress
+
+[![](https://img.shields.io/badge/LeetCode-{}/1303-yellow.svg?style=social&logo=leetcode)](https://leetcode-cn.com/u/ltcccc/)
+
+![](https://img.shields.io/github/commit-activity/m/ltc1996/leetcode)
+![](https://img.shields.io/github/last-commit/ltc1996/leetcode)
+
+| 序号 | 题目 |  语言 | 难度 |
+|---:|:-----:| :-------:|:----------:|
+"""
+
+DIFF_SEP = '|---| ----| ---- |{}| --- |'        # .format(diff)
+
+PATTERN = '| {} | {} | **{}** | {} |'       # .format(num, name, langs, diff)
+
+DIFF_RANGE = (
+    '困难',
+    '中等',
+    '简单',
+    '空',
+)
 
 
 def file_change():
@@ -123,16 +145,67 @@ def get_md_info(file_path):
     return info
 
 
-def change_md():
+def get_readme():
+    """
+    :return:
+        dict:
+            困难: ...
+            中等: ...
+            简单: ...
+        int:
+            sum(1)
+    """
     file_path = 'README.md'
     if not os.path.exists(file_path):
         raise FileNotFoundError
+    progress = defaultdict(list)
+    count = 0
     with open(file_path, encoding='utf-8') as f:
         for line in f.readlines():
-            p = r'\|.*\d*\|.*\|.*\|.*\|'
-            q = re.findall(p, line)
-            print(q) if q else None
-            # print(line)
+            p = r'\|\s+\d+\s+\|.*\|.*\|\s+(.*)\s+\|'
+            q = re.match(p, line)
+            if q:
+                query, diff = (q.group(i) for i in range(2))
+                print(query, diff)
+                # diff = '简单' if diff == '空' else diff
+                progress[diff].append(query)
+                count += 1
+    # print(count)
+    # print(progress)
+
+    return progress, count
+
+
+def update_info(dict_old, dict_new):
+    """update new .md into old .md
+    and sort according to its diff(first) and num(second)
+    :param dict_old:
+    :param dict_new:
+    :return:
+    """
+    for diff, statement in dict_new.items():
+        dict_old[diff].append(statement)
+    if '空' in dict_old:
+        if '简单' in dict_old:
+            dict_old['简单'] += dict_old['空']
+            del dict_old['空']
+    print(dict_old)
+
+
+def set_readme(progress_dict, count):
+    file_path = 'README_test.md'
+    print('set README.md, add statement * {}'.format(str(count)))
+    with open(file_path, 'w', encoding='utf-8') as f:
+        title_now = TITLE.format(count)
+        print(title_now)
+        f.write(title_now)
+        for diff in progress_dict:
+            diff_sep = DIFF_SEP.format(diff)
+            f.write(diff_sep)
+            for statement in progress_dict[diff]:
+                f.write(statement)
+
+    print('set README.md √')
 
 
 def make_num(num, indent=' '):
@@ -213,13 +286,17 @@ def main():
             print(file)
         ans = input('\n是否提交? y/n\n').lower()
         if ans == 'y':
-            for file in files:
-                info = get_md_info(file)
-                print(info)
-                s = make_statement(info)
-                print(s)
+            progress_dict, progress_count = get_readme()
+            print(progress_count, progress_dict)
+            set_readme({}, 0)
+            to_append = list()
+            # for file in files:
+            #     info = get_md_info(file)
+            #     print(info)
+            #     s = make_statement(info)
+            #     print(s)
 
-            push()
+            # push()
         else:
             print('提交取消 ×')
     else:
