@@ -166,7 +166,7 @@ def get_readme():
             q = re.match(p, line)
             if q:
                 query, diff = (q.group(i) for i in range(2))
-                print(query, diff)
+                # print(query, diff)
                 # diff = '简单' if diff == '空' else diff
                 progress[diff].append(query)
                 count += 1
@@ -266,7 +266,7 @@ def make_statement(info_dict):
             |    5 | [最长回文子串](中等/0005%20最长回文子串.md) | **C++/Python** | 中等 |
     """
     lang = make_lang(info_dict['lang'])
-    print(lang)
+    # print(lang)
     diff = info_dict['diff']
     num = info_dict['num']
     name = make_name(num, info_dict['name'], diff)
@@ -274,7 +274,7 @@ def make_statement(info_dict):
     # print(name, num, lang)
 
     pattern = PATTERN.format(num, name, lang, diff)
-    return pattern
+    return pattern, diff
 
 
 def main():
@@ -287,15 +287,17 @@ def main():
         ans = input('\n是否提交? y/n\n').lower()
         if ans == 'y':
             progress_dict, progress_count = get_readme()
-            print(progress_count, progress_dict)
-            set_readme({}, 0)
-            to_append = list()
-            # for file in files:
-            #     info = get_md_info(file)
-            #     print(info)
-            #     s = make_statement(info)
-            #     print(s)
+            # print(progress_count, progress_dict)
 
+            # to_append = defaultdict(list)
+            for file in files:
+                info = get_md_info(file)
+                # print(info)
+                s, diff = make_statement(info)      # all statement, its difficulty
+                print(s, diff)
+                # progress_dict[diff].append(s)
+            # print(progress_dict)
+            # set_readme({}, 0)
             # push()
         else:
             print('提交取消 ×')
