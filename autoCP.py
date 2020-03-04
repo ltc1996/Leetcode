@@ -46,13 +46,31 @@ DIFF_RANGE = (
 )
 
 
+def log(string, sign_index):
+    """ print format string in the screen startswith status
+    sign_index Character Meaning
+    --------- ---------------------------------------------------------------
+    0:  '⚪',    prepare
+    1:  '×',    fail
+    2:  '√',    done
+    """
+
+    sign = (
+        '0',
+        '×',
+        '√',
+    )
+    log_format = '[ {} ]: '.format(sign[sign_index])
+    print(log_format + string)
+
+
 def file_change():
     """
     :return: list, list
         stands for:
             untrack, add files
     """
-    print(LOCAL)
+    print('repo in ', LOCAL)
     repo = git.Repo(LOCAL)  # local git repo
 
     # untracked files if any else []
@@ -73,16 +91,43 @@ def file_change():
     return untrack, add
 
 
-def commit(file_list):
+def get_num(file_list):
+    nums = []
+    for file_name in file_list:
+        p = r'\d{4}'
+        q = re.findall(p, file_name)
+        nums.append(q[0])
+
+    return ', '.join(nums)
+
+
+def add_file(file_list):
     repo = git.Repo(LOCAL)
+    index = repo.index
     time_now = datetime.now().strftime("%Y-%m-%d %H:%M")
-    commit_str = 'AUTO push: {} @' + time_now
-    print(commit_str)
+    nums = get_num(file_list)
+    add_str = 'AUTO Add {} @ '.format(nums) + time_now
+
     try:
-        repo.commit(commit_str)
-        print('commit √' + '\n')
+        index.add(file_list)
+        log(add_str, 2)
+    except Exception as e:
+        log(e, 1)
+
+
+def commit(file_list):
+    nums = get_num(file_list)
+    index = git.Repo(LOCAL).index
+    time_now = datetime.now().strftime("%Y-%m-%d %H:%M")
+    commit_str = 'AUTO Commit: ' + 'add {} '.format(nums) + '@ ' + time_now
+    # # print(commit_str)
+    try:
+        index.commit(commit_str)
+        log(commit_str, 2)
+        # print('commit √' + '\n')
     except IOError:
-        print('commit ×' + '\n')
+        log(commit_str, 1)
+        # print('commit ×' + '\n')
 
 
 def push():
@@ -90,11 +135,16 @@ def push():
     :return: None
     """
     repo = git.Repo(LOCAL)
+    # remote = repo.create_remote('origin', repo.remotes.origin.url)
+    time_now = datetime.now().strftime("%Y-%m-%d %H:%M")
+    push_str = 'AUTO Push @ ' + time_now
     try:
-        repo.remote().push('master')
-        print('push √' + '\n')
+        repo.remote().push()
+        log(push_str, 2)
+        # print('push √' + '\n')
     except IOError:
-        print('push ×' + '\n')
+        log(push_str, 1)
+        # print('push ×' + '\n')
 
 
 def get_md_info(file_path):
@@ -121,10 +171,11 @@ def get_md_info(file_path):
     f = True  # 难度只搜一次
     with open(file_path, encoding='utf-8') as f:
         if f:
-            p = r'(\d+)\.\s*(.+)'  # 匹配题号和题名
+            p = r'(\d+)\.\s*(\[(.*)\]|.+)'  # 匹配题号和题名
             q = re.findall(p, f.readline())
             if q:
-                num, name = q[0]
+                num, name, name_yes = q[0]
+                name = name or name_yes
         # print(num, name)
         for line in f.readlines()[1:]:
             lang = r'```\s*(.+)'  # 语言(s)
@@ -202,19 +253,18 @@ def update_info(dict_old, dict_new):
 def set_readme(progress_dict, count):
     file_path = 'README_test.md'
     # new record
-    print('set README.md, add statement * {}'.format(str(count)))
-    # all records now
+    s = 'set README.md, add statement * {}'.format(str(count))
+    log(s, 0)    # all records now
     count_now = sum([len(progress_dict[k]) for k in progress_dict])
     title_now = TITLE.format(count_now)
     with open(file_path, 'w', encoding='utf-8') as f:
-        f.write(title_now)
+        f.write(title_now + '\n')
         for diff in progress_dict:
             diff_sep = DIFF_SEP.format(diff)
             f.write(diff_sep)
             for statement in progress_dict[diff]:
                 f.write(statement + '\n')
-
-    print('set README.md √')
+    log('set README.md', 2)
 
 
 def make_num(num, indent=' '):
@@ -241,9 +291,12 @@ def make_name(num: int, name: str, diff: str) -> str:
     :param diff: str: 中等
     :return: str: [最长回文子串](中等/0005%20最长回文子串.md)
     """
-    num = make_num(num, '0')
-    file_name = '{}/{}%20{}.md'.format(diff, num, name)
-    res = '[{}]({})'.format(name, file_name)
+    if diff == '空':
+        res = name
+    else:
+        num = make_num(num, '0')
+        file_name = '{}/{}%20{}.md'.format(diff, num, name)
+        res = '[{}]({})'.format(name, file_name)
     return res
 
 
@@ -283,6 +336,7 @@ def make_statement(info_dict):
     # print(name, num, lang)
 
     pattern = PATTERN.format(num, name, lang, diff)
+    log(pattern, 2)
     return pattern, diff
 
 
@@ -293,9 +347,11 @@ def main():
     if os.path.exists(file_path):
         os.remove(file_path)
     if len(files):
-        print('发现文件:\n')
-        for file in files:
-            print(file)
+        log('发现文件:\n', 0)
+        # print('发现文件:\n')
+        for count, file in enumerate(files):
+            print(1 + count, ': ' + file)
+
         ans = input('\n是否提交? y/n\n').lower()
         if ans == 'y':
             progress_dict, progress_count = get_readme()
@@ -306,20 +362,28 @@ def main():
                 info = get_md_info(file)
                 # print(info)
                 s, diff = make_statement(info)      # all statement, its difficulty
-                print(s, diff)
+                # print(s, diff)
                 to_append[diff].append(s)
             # print(to_append)
             record_curr = update_info(progress_dict, to_append)
-            print(record_curr)
+            # print(record_curr)
             # print(progress_dict)
             set_readme(record_curr, len(files))
             # push()
+            if untrack:
+                # 添加暂存
+                add_file(untrack)
+            commit(files)
+            push()
+            log('done', 2)
         else:
-            print('提交取消 ×')
+            log('提交取消', 1)
+            # print('提交取消 ×')
     else:
-        print('无文件修改 ⚪')
+        log('无文件修改', 2)
+        # print('无文件修改 ⚪')
 
-    input('任意键退出\n')
+    input('[ 0 ]任意键退出\n')
     return
 
 
