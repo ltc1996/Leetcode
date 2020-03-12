@@ -8,6 +8,8 @@ import time
 from datetime import datetime
 from collections import defaultdict
 
+TIME_NOW = datetime.now().strftime("%Y-%m-%d %H:%M")
+
 LOCAL = os.path.dirname(__file__)
 
 LANG = {
@@ -53,12 +55,14 @@ def log(string, sign_index):
     0:  '⚪',    prepare
     1:  '×',    fail
     2:  '√',    done
+    3:  '＋',   something new
     """
 
     sign = (
-        '0',
+        '⚪',
         '×',
         '√',
+        '＋',
     )
     log_format = '[ {} ]: '.format(sign[sign_index])
     print(log_format + string)
@@ -94,6 +98,8 @@ def file_change():
 def get_num(file_list):
     nums = []
     for file_name in file_list:
+        if file_name[-3:] != '.md':
+            continue
         p = r'\d{4}'
         q = re.findall(p, file_name)
         nums.append(q[0])
@@ -104,13 +110,12 @@ def get_num(file_list):
 def add_file(file_list):
     repo = git.Repo(LOCAL)
     index = repo.index
-    time_now = datetime.now().strftime("%Y-%m-%d %H:%M")
     nums = get_num(file_list)
-    add_str = 'AUTO Add {} @ '.format(nums) + time_now
+    add_str = 'AUTO Add: {} @'.format(nums) + TIME_NOW
 
     try:
         index.add(file_list)
-        log(add_str, 2)
+        log(add_str, 3)
     except Exception as e:
         log(e, 1)
 
@@ -118,9 +123,9 @@ def add_file(file_list):
 def commit(file_list):
     nums = get_num(file_list)
     index = git.Repo(LOCAL).index
-    time_now = datetime.now().strftime("%Y-%m-%d %H:%M")
-    commit_str = 'AUTO Commit: ' + 'add {} '.format(nums) + '@ ' + time_now
+    commit_str = 'AUTO Commit: ' + 'add {} '.format(nums) + '@' + TIME_NOW
     # # print(commit_str)
+    log(commit_str, 2)
     try:
         index.commit(commit_str)
         log(commit_str, 2)
@@ -136,8 +141,8 @@ def push():
     """
     repo = git.Repo(LOCAL)
     # remote = repo.create_remote('origin', repo.remotes.origin.url)
-    time_now = datetime.now().strftime("%Y-%m-%d %H:%M")
-    push_str = 'AUTO Push @ ' + time_now
+    push_str = 'AUTO Push. @' + TIME_NOW
+    log(push_str, 2)
     try:
         repo.remote().push()
         log(push_str, 2)
@@ -161,6 +166,8 @@ def get_md_info(file_path):
     # print('opening file: {}'.format(file_path))
     if not os.path.exists(file_path):
         raise FileNotFoundError
+    if file_path[-3:] != '.md':
+        return {}
     info = {
         'num': 0,
         'name': '',
@@ -251,7 +258,7 @@ def update_info(dict_old, dict_new):
 
 
 def set_readme(progress_dict, count):
-    file_path = 'README_test.md'
+    file_path = 'README.md'
     # new record
     s = 'set README.md, add statement * {}'.format(str(count))
     log(s, 0)    # all records now
@@ -264,7 +271,7 @@ def set_readme(progress_dict, count):
             f.write(diff_sep)
             for statement in progress_dict[diff]:
                 f.write(statement + '\n')
-    log('set README.md', 2)
+    log('set README.md Done', 2)
 
 
 def make_num(num, indent=' '):
@@ -342,6 +349,8 @@ def make_statement(info_dict):
 
 def main():
     untrack, add = file_change()
+    print(untrack, add)
+    # return
     files = untrack + add
     file_path = 'README_test.md'
     if os.path.exists(file_path):
@@ -359,7 +368,10 @@ def main():
 
             to_append = defaultdict(list)
             for file in files:
+                log(file, 3)
                 info = get_md_info(file)
+                if not info:
+                    continue
                 # print(info)
                 s, diff = make_statement(info)      # all statement, its difficulty
                 # print(s, diff)
@@ -383,7 +395,7 @@ def main():
         log('无文件修改', 2)
         # print('无文件修改 ⚪')
 
-    input('[ 0 ]任意键退出\n')
+    input('[  ]: 任意键退出\n')
     return
 
 
