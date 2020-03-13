@@ -268,7 +268,7 @@ def set_readme(progress_dict, count):
         f.write(title_now + '\n')
         for diff in progress_dict:
             diff_sep = DIFF_SEP.format(diff)
-            f.write(diff_sep)
+            f.write(diff_sep + '\n')
             for statement in progress_dict[diff]:
                 f.write(statement + '\n')
     log('set README.md Done', 2)
