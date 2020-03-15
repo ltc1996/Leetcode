@@ -1,7 +1,7 @@
 
 # LeetCode progress
 
-[![](https://img.shields.io/badge/LeetCode-257/1303-yellow.svg?style=social&logo=leetcode)](https://leetcode-cn.com/u/ltcccc/)
+[![](https://img.shields.io/badge/LeetCode-258/1303-yellow.svg?style=social&logo=leetcode)](https://leetcode-cn.com/u/ltcccc/)
 
 ![](https://img.shields.io/github/commit-activity/m/ltc1996/leetcode)
 ![](https://img.shields.io/github/last-commit/ltc1996/leetcode)
@@ -81,6 +81,7 @@
 |  646 | [最长对数链](中等/0646%20最长对数链.md) | **Python** | 中等 |
 |  650 | [只有两个键的键盘](中等/0650%20只有两个键的键盘.md) | **C++/Python** | 中等 |
 |  677 | [键值映射](中等/0677%20键值映射.md) | **Python** | 中等 |
+|  695 | [岛屿的最大面积](中等/0695%20岛屿的最大面积.md) | **C++/Python** | 中等 |
 |  712 | [两个字符串的最小ASCII删除和](中等/0712%20两个字符串的最小ASCII删除和.md) | **C++** | 中等 |
 |  841 | [钥匙与房间](中等/0841%20钥匙与房间.md) | **Python** | 中等 |
 |  848 | [字母移位](中等/0848%20字母移位.md) | **Python** | 中等 |

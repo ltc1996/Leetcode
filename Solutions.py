@@ -680,19 +680,108 @@ class Solution(object):
         r = dfs(0, len(nums) - 1)
         return r
 
-n =             7
-headID =        6
-manager =       [1,2,3,4,5,6,-1]
-informTime =    [0,6,5,4,3,2,1]
+    def luckyNumbers (self, matrix):
+        """
+        :type matrix: List[List[int]]
+        :rtype: List[int]
+        """
+        row, col = len(matrix), len(matrix[0])
+        tar = []
+        res = []
+        for i in range(row):
+            m = float('inf')
+            t = (i, 0)
+            for j in range(col):
+                print(m)
+                print(matrix[i][j])
+                if matrix[i][j] < m:
+                    m = matrix[i][j]
+                    t = (i, j)
+            tar.append(t)
+        print(tar)
+        for x, y in tar:
+            m = matrix[x][y]
+            flag = True
+            for i in range(row):
+                if matrix[i][y] > m:
+                    flag = False
+                    break
+            if flag:
+                res.append(m)
+        return res
 
-n           = 3
-edges       = [[2,1],[3,2]]
-t           = 1
-target      = 2
+    def maxPerformance(self, n, speed, efficiency, k):
+        """
+        :type n: int
+        :type speed: List[int]
+        :type efficiency: List[int]
+        :type k: int
+        :rtype: int
+        """
+        from heapq import nlargest
+        tar = [[speed[i], efficiency[i]] for i in range(n)]
+        tar.sort(key=lambda d: d[1])
+        # print(tar)
 
-nums = [-10,-3,0,5,9]
-a = Solution().sortedArrayToBST(
-    nums
+        res = 0
+        poi = 0
+        for i in range(n):
+            if tar[i][0] * tar[i][1] > res:
+                res = tar[i][0] * tar[i][1]
+                poi = i
+        print(res)
+        print(poi)
+        eff = tar[poi][1]
+        print(eff)
+        sp = [tar[i][0] for i in range(poi, n)]
+        nl = nlargest(min(k, len(sp)), sp)
+        print(nl)
+        res = sum(nl) * eff
+        return res
+
+    def maxAreaOfIsland(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+        res = 0
+        row, col = map(len, (grid, grid[0]))
+        dirs = (
+            (1, 0),
+            (-1, 0),
+            (0, 1),
+            (0, -1)
+        )
+        def dfs(x, y):
+            area = 1
+            grid[x][y] = 0
+            for dir in dirs:
+                dx = x + dir[0]
+                dy = y + dir[1]
+                if 0 <= dx < row and 0 <= dy < col:
+                    if grid[dx][dy]:
+                        area += dfs(dx, dy)
+            return area
+                
+        for i in range(row):
+            for j in range(col):
+                if grid[i][j]:
+                    t = dfs(i, j)
+                    res = max(res, t)
+
+        return res
+        
+grid = [[0,0,1,0,0,0,0,1,0,0,0,0,0],
+ [0,0,0,0,0,0,0,1,1,1,0,0,0],
+ [0,1,1,0,1,0,0,0,0,0,0,0,0],
+ [0,1,0,0,1,1,0,0,1,0,1,0,0],
+ [0,1,0,0,1,1,0,0,1,1,1,0,0],
+ [0,0,0,0,0,0,0,0,0,0,1,0,0],
+ [0,0,0,0,0,0,0,1,1,1,0,0,0],
+ [0,0,0,0,0,0,0,1,1,0,0,0,0]]
+
+a = Solution().maxAreaOfIsland(
+    grid
 )
 p(a)
 

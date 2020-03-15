@@ -33,12 +33,12 @@ TITLE = """
 ![](https://img.shields.io/github/last-commit/ltc1996/leetcode)
 
 | 序号 | 题目 |  语言 | 难度 |
-|---:|:-----:| :-------:|:----------:|
+|---:|:-----:| :-------:|:----------:|\n
 """
 
-DIFF_SEP = '|---| ----| ---- |{}| --- |'        # .format(diff)
+DIFF_SEP = '|---| ----| ---- |{}| --- |\n'        # .format(diff)
 
-PATTERN = '| {} | {} | **{}** | {} |'       # .format(num, name, langs, diff)
+PATTERN = '| {} | {} | **{}** | {} |\n'       # .format(num, name, langs, diff)
 
 DIFF_RANGE = (
     '困难',
@@ -260,17 +260,17 @@ def update_info(dict_old, dict_new):
 def set_readme(progress_dict, count):
     file_path = 'README.md'
     # new record
-    s = 'set README.md, add statement * {}'.format(str(count))
+    s = '\nset README.md, add statement * {}\n'.format(str(count))
     log(s, 0)    # all records now
     count_now = sum([len(progress_dict[k]) for k in progress_dict])
     title_now = TITLE.format(count_now)
     with open(file_path, 'w', encoding='utf-8') as f:
-        f.write(title_now + '\n')
+        f.write(title_now)
         for diff in progress_dict:
             diff_sep = DIFF_SEP.format(diff)
-            f.write(diff_sep + '\n')
+            f.write(diff_sep )
             for statement in progress_dict[diff]:
-                f.write(statement + '\n')
+                f.write(statement)
     log('set README.md Done', 2)
 
 
