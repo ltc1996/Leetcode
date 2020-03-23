@@ -58,13 +58,13 @@ class Solution(object):
         :rtype: int
         """
         from collections import defaultdict
-        
+
         n = len(arr)
         if n < 3:
             return n - 1
-        
+
         d = defaultdict(list)
-        
+
         for i in range(n):
             d[arr[i]].append(i)     # 统计高度为arr[i]的所有下标
         vis = [0] * n
@@ -106,7 +106,7 @@ class Solution(object):
             queue = next_quene
             print(queue, vis)
             print()
-        
+
         # while queue:
         #     cur, temp = queue.pop(0)
         #     for i in d[arr[cur]]:
@@ -131,7 +131,7 @@ class Solution(object):
         #         queue.append((i-1, temp+1))
         #         if i-1 == 0:
         #             return dp[0]
-        
+
     def checkIfExist(self, arr):
         """
         :type arr: List[int]
@@ -289,7 +289,7 @@ class Solution(object):
             last = min(target)
             if last < 1:
                 flag = False
-                
+
             s = sum(target)
             m = max(target)
             if 2 * m < s:
@@ -392,7 +392,7 @@ class Solution(object):
                     dp[i][j] = True
                     count += 1
                     # print(tmp)
-                
+
         return count
 
     def countOrders(self, n):
@@ -452,7 +452,7 @@ class Solution(object):
             print(1)
             if one_l:
                 one.pop()
-                f = True   
+                f = True
             elif zero_l >= 3:
                 two = []
                 f = True
@@ -460,12 +460,12 @@ class Solution(object):
             print(2)
             if two_l:
                 two.pop()
-                f = True   
+                f = True
             elif one_l >= 2:
                 one.pop()
                 one.pop()
                 print(2)
-                f = True   
+                f = True
 
         print(d)
 
@@ -589,12 +589,12 @@ class Solution(object):
             if time % 2:
                 res += tmp
             else:
-                res += tmp[::-1] 
+                res += tmp[::-1]
             time = 1 - time
             c = update(c)
 
         return res
-        
+
     def findTheLongestSubstring(self, s):
         # vowel = ('a'，'e'，'i'，'o'，'u')
         return s
@@ -661,7 +661,7 @@ class Solution(object):
         # print(self.line)
         if not self.line:
             return 0
-        
+
         ret = 1
         for i in self.line:
             ret *= 1 / (len(d[i]) or 1)
@@ -762,7 +762,7 @@ class Solution(object):
                     if grid[dx][dy]:
                         area += dfs(dx, dy)
             return area
-                
+
         for i in range(row):
             for j in range(col):
                 if grid[i][j]:
@@ -770,21 +770,358 @@ class Solution(object):
                     res = max(res, t)
 
         return res
-        
-grid = [[0,0,1,0,0,0,0,1,0,0,0,0,0],
- [0,0,0,0,0,0,0,1,1,1,0,0,0],
- [0,1,1,0,1,0,0,0,0,0,0,0,0],
- [0,1,0,0,1,1,0,0,1,0,1,0,0],
- [0,1,0,0,1,1,0,0,1,1,1,0,0],
- [0,0,0,0,0,0,0,0,0,0,1,0,0],
- [0,0,0,0,0,0,0,1,1,1,0,0,0],
- [0,0,0,0,0,0,0,1,1,0,0,0,0]]
 
-a = Solution().maxAreaOfIsland(
-    grid
+    def compressString(self, S):
+        """
+        :type S: str
+        :rtype: str
+        """
+        import re
+        res = ''
+        l = 0
+        p = re.finditer(r'([a-zA-Z])\1*', S)
+        for char in map(lambda x: x.group(), p):
+            t = str(len(char))
+            l += 1 + len(t)
+            res += char[0] + t
+
+        return res * (l < len(S)) or S
+
+        last = S[0]
+        res = ''
+        count = 0
+        tmp = 1
+        for i in range(1, len(S)):
+            if S[i] == last:
+                tmp += 1
+            else:
+                t = str(tmp)
+                res += last + t
+                count += 1 + len(t)
+                last = S[i]
+                tmp = 1
+        t = str(tmp)
+        res += last + t
+        count += 1 + len(t)
+        print(count, len(S))
+        if count < len(S):
+            return res
+        else:
+            return S
+
+    def longestPalindrome(self, s):
+        from collections import Counter
+        c = Counter(s)
+        flag = False
+        for num in c.values():
+            if num % 2:
+                flag = True
+                break
+        return sum([num & 0xfffffffe for num in c.values()]) + flag
+
+    def partitionLabels(self, S):
+        # from collections import defaultdict
+        d = {}     # defaultdict(list)
+        for i in range(len(S)):
+            if S[i] in d:
+                d[S[i]][-1] = i
+            else:
+                d[S[i]] = [i, i]
+        v = sorted(d.values(), key=lambda x: x[0])
+        print(v)
+        res = []
+        s, e = v[0]
+        for i in range(1, len(v)):
+            if v[i][0] > e:
+                # 开始 > 结尾, 说明不再重叠
+                res.append(e - s + 1)
+                s = v[i][0]
+            if v[i][1] > e:
+                # 延长结尾位置
+                e = v[i][1]
+        res.append(e - s + 1)
+
+        return res
+
+    def minDeletionSize(self, A):
+        """
+        :type A: List[str]
+        :rtype: int
+        """
+        A = [x for x in zip(*A)]
+        B = [list(y) != sorted(y) for y in A]
+        return sum(B)
+
+    def reconstructQueue(self, people):
+        """
+        :type people: List[List[int]]
+        :rtype: List[List[int]]
+        """
+        p = sorted(people, key=lambda x: (-x[0], x[1]))
+        res = []
+        for item in p:
+            res.insert(item[1], item)
+        return res
+
+    def minSwapsCouples(self, row):
+        count = 0
+        for i in range(0, len(row), 2):
+            r = row[i] ^ 1
+            t = row.index(r)
+            if t - i > 1:
+                count += 1
+                row[t], row[i + 1] = row[i + 1], row[t]
+        return count
+
+    def findTheDistanceValue(self, arr1, arr2, d):
+        """
+        :type arr1: List[int]
+        :type arr2: List[int]
+        :type d: int
+        :rtype: int
+        """
+        count = 0
+        for i in arr1:
+            for j in arr2:
+                if abs(i - j) <= d:
+                    break
+            else:
+                count += 1
+        return count
+
+    def maxNumberOfFamilies(self, n, reservedSeats):
+        """
+        :type n: int
+        :type reservedSeats: List[List[int]]
+        :rtype: int
+        """
+        from collections import defaultdict
+        d = defaultdict(set)
+        for x, y in reservedSeats:
+            d[x].add(y)
+        l, m, r = set((2, 3)), set((4, 5, 6, 7)), set((8, 9))
+        print(d)
+        count = 0
+        for i in range(1, 1 + n):
+            print('now', i)
+            if i not in d or not (l | m | r) & d[i]:
+                count += 2
+                print(1, count)
+                continue
+            t = d[i]
+            if l & t or r & t:
+                # print(1)
+                # print(l, r, m, t)
+                if not set((6, 7, 8, 9)) & t:
+                    count += 1
+                    continue
+                if not set((2, 3, 4, 5)) & t:
+                    count += 1
+                    continue
+                if not m & t:
+                    count += 1
+                    continue
+            else:
+                if not set((4, 5)) & t:
+                    count += 1
+                if not set((6, 7)) & t:
+                    count += 1
+            print(count)
+        return count
+
+    def getKth(self, lo, hi, k):
+        """
+        :type lo: int
+        :type hi: int
+        :type k: int
+        :rtype: int
+        """
+        def change(n):
+            if n == 1:
+                return 0
+            if n % 2:
+                return 1 + change(3 * n + 1)
+            else:
+                return 1 + change(n // 2)
+
+        tar = [i for i in range(lo, 1 + hi)]
+        tar.insert
+        tar.sort(key=lambda x: change(x))
+        return tar[k - 1]
+
+    def sumFourDivisors(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        def helper(n):
+            count = 0
+            s = 0
+            # print('now', n)
+            if n == 1:
+                return 0
+            for i in range(1, 1 + int(n**0.5)):
+                if n % i == 0:
+                    # print('has', i)
+                    if i**2 == n:
+                        return 0
+                    count += 1
+                    if count > 2:
+                        return 0
+                    s += i + n // i
+            # print(n, count)
+            if count == 2:
+                return s
+            else:
+                return 0
+        print([helper(i) for i in nums])
+        return sum([helper(i) for i in nums])
+
+    def longestPrefix(self, s):
+        n = len(s)
+        if n == 1:
+            return ''
+        for i in range(n - 1, 0, -1):
+            if s[:i] == s[n - i:]:
+                return s[:i]
+        else:
+            return ''
+
+    def hasValidPath(self, grid):
+        pipes = {       # 管道流出的方向
+            1: ('左', '右'),
+            2: ('上', '下'),
+            3: ('左', '下'),
+            4: ('右', '下'),
+            5: ('左', '上'),
+            6: ('右', '上'),
+        }
+        rev = {         # 反方向
+            '左': '右',
+            '右': '左',
+            '下': '上',
+            '上': '下',
+        }
+        dirs = {        # 方向与坐标的转换
+            '左': (0, -1),
+            '右': (0, 1),
+            '下': (1, 0),
+            '上': (-1, 0),
+        }
+        row, col = map(len, (grid, grid[0]))
+        if row == col == 1:
+            return True
+        self.res = False
+
+        def dfs(x, y, d):
+            print('now', x, y)
+            if x == row - 1 and y == col - 1:
+                self.res = True
+                print('end')
+                return
+            if x < 0 or x >= row or y < 0 or y >= col:
+                self.res = False
+                print('overflow')
+                return
+            curr = grid[x][y]       # 当前管道型号
+            curr_dir = pipes[curr]  # 当前管道两个流出方向
+            print('@ pipe', curr)
+            _from = rev[d]      # 离开向下, 迎接向上
+            if _from not in curr_dir:   # 与来向不匹配
+                print('wrong pipe')
+                return False
+            for d in curr_dir:
+                if d != _from:  # 向管道另外一头流出
+                    _to = d
+            dx = dirs[_to][0] + x
+            dy = dirs[_to][1] + y
+            print('from', _from, x, y, 'to', _to, dx, dy)
+            dfs(dx, dy, _to)
+
+        first = grid[0][0]
+        if first in (4, 5):
+            return False
+        elif first in (1, 6):
+            dfs(0, 0, '右')
+        else:
+            dfs(0, 0, '下')
+        return self.res
+
+    def hasValidPath1(self, grid):
+        row, col = len(grid), len(grid[0])
+        if row == col == 1:
+            return True
+        U = -1 + 0j
+        D = 1 + 0j
+        L = 0 - 1j
+        R = 0 + 1j
+        pipes = {
+            1: (L, R),
+            2: (U, D),
+            3: (L, D),
+            4: (R, D),
+            5: (L, U),
+            6: (R, U),
+        }
+
+        def dfs(cmpx, d):
+            print('in')
+            x = int(cmpx.real)
+            y = int(cmpx.imag)
+            if x < 0 or x >= row or y < 0 or y >= col:
+                return cmpx
+            curr = grid[x][y]
+            print(x, y, pipes[curr])
+            if -d not in pipes[curr]:
+                print(2)
+                return False
+            if x == row - 1 and y == col - 1:
+                return cmpx
+            for dir in pipes[curr]:
+                if dir != -d:
+                    print('out as', cmpx + dir, dir)
+                    return dfs(cmpx + dir, dir)
+            # print('this', cmpx)
+            # return cmpx
+
+        first = grid[0][0]
+        if first == 5:
+            return False
+        elif first == 4:
+            print(dfs(0 + 0j, D))
+            res = []
+            # res = (dfs(0 + 0j, R), dfs(0 + 0j, D))
+        elif first in (1, 6):
+            res = dfs(0 + 0j, R),
+        else:
+            res = dfs(0 + 0j, D),
+        print('end @', res)
+        return (row - 1) + (col - 1) * 1j in res
+
+    def eraseOverlapIntervals(self, intervals):
+        """
+        :type intervals: List[List[int]]
+        :rtype: int
+        """
+        intervals.sort(key=lambda x: x[1])
+        print(intervals)
+        e, count = float('-inf'), 0
+        for x, y in intervals:
+            if x >= e:
+                count += 1
+                e = y
+            # count += 1
+            print(e, count)
+
+        return len(intervals) - count
+
+a = Solution().eraseOverlapIntervals(
+    [[-100,-87],[-99,-44],[-98,-19],[-97,-33],[-96,-60],[-95,-17],[-94,-44],[-93,-9],[-92,-63],[-91,-76],[-90,-44],[-89,-18],[-88,10],[-87,-39],[-86,7],[-85,-76],[-84,-51],[-83,-48],[-82,-36],[-81,-63],[-80,-71],[-79,-4],[-78,-63],[-77,-14],[-76,-10],[-75,-36],[-74,31],[-73,11],[-72,-50],[-71,-30],[-70,33],[-69,-37],[-68,-50],[-67,6],[-66,-50],[-65,-26],[-64,21],[-63,-8],[-62,23],[-61,-34],[-60,13],[-59,19],[-58,41],[-57,-15],[-56,35],[-55,-4],[-54,-20],[-53,44],[-52,48],[-51,12],[-50,-43],[-49,10],[-48,-34],[-47,3],[-46,28],[-45,51],[-44,-14],[-43,59],[-42,-6],[-41,-32],[-40,-12],[-39,33],[-38,17],[-37,-7],[-36,-29],[-35,24],[-34,49],[-33,-19],[-32,2],[-31,8],[-30,74],[-29,58],[-28,13],[-27,-8],[-26,45],[-25,-5],[-24,45],[-23,19],[-22,9],[-21,54],[-20,1],[-19,81],[-18,17],[-17,-10],[-16,7],[-15,86],[-14,-3],[-13,-3],[-12,45],[-11,93],[-10,84],[-9,20],[-8,3],[-7,81],[-6,52],[-5,67],[-4,18],[-3,40],[-2,42],[-1,49],[0,7],[1,104],[2,79],[3,37],[4,47],[5,69],[6,89],[7,110],[8,108],[9,19],[10,25],[11,48],[12,63],[13,94],[14,55],[15,119],[16,64],[17,122],[18,92],[19,37],[20,86],[21,84],[22,122],[23,37],[24,125],[25,99],[26,45],[27,63],[28,40],[29,97],[30,78],[31,102],[32,120],[33,91],[34,107],[35,62],[36,137],[37,55],[38,115],[39,46],[40,136],[41,78],[42,86],[43,106],[44,66],[45,141],[46,92],[47,132],[48,89],[49,61],[50,128],[51,155],[52,153],[53,78],[54,114],[55,84],[56,151],[57,123],[58,69],[59,91],[60,89],[61,73],[62,81],[63,139],[64,108],[65,165],[66,92],[67,117],[68,140],[69,109],[70,102],[71,171],[72,141],[73,117],[74,124],[75,171],[76,132],[77,142],[78,107],[79,132],[80,171],[81,104],[82,160],[83,128],[84,137],[85,176],[86,188],[87,178],[88,117],[89,115],[90,140],[91,165],[92,133],[93,114],[94,125],[95,135],[96,144],[97,114],[98,183],[99,157]]
 )
+# a = Solution().hasValidPath1(
+#     [[4,1],[6,1]]
+# )
 p(a)
-
 # def square(n, time):
 #     try:
 #         1 / time

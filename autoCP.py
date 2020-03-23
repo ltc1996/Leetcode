@@ -22,6 +22,7 @@ LANG = {
     'ruby': 'Ruby',
     'golang': 'Go',
     'swift': 'Swift',
+    'sql': 'SQL',
 }
 
 TITLE = """
@@ -33,12 +34,12 @@ TITLE = """
 ![](https://img.shields.io/github/last-commit/ltc1996/leetcode)
 
 | 序号 | 题目 |  语言 | 难度 |
-|---:|:-----:| :-------:|:----------:|\n
+|---:|:-----:| :-------:|:----------:|
 """
 
-DIFF_SEP = '|---| ----| ---- |{}| --- |\n'        # .format(diff)
+DIFF_SEP = '|---| ----| ---- |{}| --- |'        # .format(diff)
 
-PATTERN = '| {} | {} | **{}** | {} |\n'       # .format(num, name, langs, diff)
+PATTERN = '| {} | {} | **{}** | {} |'       # .format(num, name, langs, diff)
 
 DIFF_RANGE = (
     '困难',
@@ -192,6 +193,7 @@ def get_md_info(file_path):
             diff = r'- (.{2})'  # 难度
             q = re.findall(diff, line)
             if f and q:
+                assert q[0] in DIFF_RANGE
                 info['diff'] = q[0]
                 f = False
     # print('file {} uses language(s):', ', '.join(languages))
@@ -258,6 +260,7 @@ def update_info(dict_old, dict_new):
 
 
 def set_readme(progress_dict, count):
+    # file_path = 'README_test.md'
     file_path = 'README.md'
     # new record
     s = '\nset README.md, add statement * {}\n'.format(str(count))
@@ -265,12 +268,12 @@ def set_readme(progress_dict, count):
     count_now = sum([len(progress_dict[k]) for k in progress_dict])
     title_now = TITLE.format(count_now)
     with open(file_path, 'w', encoding='utf-8') as f:
-        f.write(title_now)
+        f.write(title_now + '\n')
         for diff in progress_dict:
             diff_sep = DIFF_SEP.format(diff)
-            f.write(diff_sep )
+            f.write(diff_sep + '\n')
             for statement in progress_dict[diff]:
-                f.write(statement)
+                f.write(statement + '\n')
     log('set README.md Done', 2)
 
 
@@ -381,7 +384,6 @@ def main():
             # print(record_curr)
             # print(progress_dict)
             set_readme(record_curr, len(files))
-            # push()
             if untrack:
                 # 添加暂存
                 add_file(untrack)
