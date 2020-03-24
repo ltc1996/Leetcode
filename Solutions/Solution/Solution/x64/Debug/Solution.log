@@ -1,0 +1,6 @@
+﻿  Solution.cpp
+D:\Charge\444\Solutions\Solution\Solution\Solution.cpp(7,13): error C3861: “question2”: 找不到标识符
+D:\Charge\444\Solutions\Solution\Solution\Solution.cpp(7,32): error C2065: “end2”: 未声明的标识符
+D:\Charge\444\Solutions\Solution\Solution\Solution.cpp(11,5): error C2065: “vector”: 未声明的标识符
+D:\Charge\444\Solutions\Solution\Solution\Solution.cpp(11,15): error C2062: 意外的类型“int”
+D:\Charge\444\Solutions\Solution\Solution\Solution.cpp(12,13): error C2065: “dp”: 未声明的标识符
