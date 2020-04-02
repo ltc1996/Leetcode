@@ -126,7 +126,6 @@ def commit(file_list):
     index = git.Repo(LOCAL).index
     commit_str = 'AUTO Commit: ' + 'add {} '.format(nums) + '@' + TIME_NOW
     # # print(commit_str)
-    log(commit_str, 2)
     try:
         index.commit(commit_str)
         log(commit_str, 2)
@@ -143,7 +142,6 @@ def push():
     repo = git.Repo(LOCAL)
     # remote = repo.create_remote('origin', repo.remotes.origin.url)
     push_str = 'AUTO Push. @' + TIME_NOW
-    log(push_str, 2)
     try:
         repo.remote().push()
         log(push_str, 2)
