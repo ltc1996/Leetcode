@@ -1,7 +1,7 @@
 
 # LeetCode progress
 
-[![](https://img.shields.io/badge/LeetCode-275/1303-yellow.svg?style=social&logo=leetcode)](https://leetcode-cn.com/u/ltcccc/)
+[![](https://img.shields.io/badge/LeetCode-277/1303-yellow.svg?style=social&logo=leetcode)](https://leetcode-cn.com/u/ltcccc/)
 
 ![](https://img.shields.io/github/commit-activity/m/ltc1996/leetcode)
 ![](https://img.shields.io/github/last-commit/ltc1996/leetcode)
@@ -31,6 +31,7 @@
 |   11 | [盛水最多的容器](中等/0011%20盛水最多的容器.md) | **C++/Python/Ruby** | 中等 |
 |   15 | [三数之和](中等/0015%20三数之和.md) | **Python** | 中等 |
 |   17 | [电话号码的字母组合](中等/0017%20电话号码的字母组合.md) | **Python** | 中等 |
+|   19 | [删除链表的倒数第N个节点](中等/0019%20删除链表的倒数第N个节点.md) | **Python** | 中等 |
 |   24 | [两两交互链表中的节点](中等/0024%20两两交互链表中的节点.md) | **Python** | 中等 |
 |   40 | [组合总和II](中等/0040%20组合总和II.md) | **Python** | 中等 |
 |   55 | [跳跃游戏](中等/0055%20跳跃游戏.md) | **Python** | 中等 |
@@ -153,6 +154,7 @@
 |  189 | [旋转数组](简单/0189%20旋转数组.md) | **Python** | 空 |
 |  190 | [颠倒二进制位](简单/0190%20颠倒二进制位.md) | **Python** | 空 |
 |  191 | [位1的个数](简单/0191%20位1的个数.md) | **Python** | 空 |
+|  196 | [删除重复的电子邮箱](简单/0196%20删除重复的电子邮箱.md) | **SQL** | 简单 |
 |  198 | [打家劫舍](简单/0198%20打家劫舍.md) | **C++/Python** | 简单 |
 |  202 | [快乐数](简单/0202%20快乐数.md) | **Python** | 简单 |
 |  203 | [移除链表元素](简单/0203%20移除链表元素.md) | **C++/Python** | 简单 |

@@ -1262,8 +1262,54 @@ class Solution(object):
 
         return count
 
-a = Solution().findMinArrowShots(
-    [[10,16],[2,8],[1,6],[7,12]]
+    def findDiagonalOrder(self, matrix):
+        if not matrix:
+            return []
+        row, col = len(matrix), len(matrix[0])
+        res = []
+        diag = row + col - 1
+        # print(diag)
+        i = j = 0
+        index = 0
+        for i in range(row):
+            for j in range(1 + index):
+                print(j, index - j)
+            index += 1
+            # print(index)
+        print()
+        for j in range(1, col):
+            for i in range(row - 1, 1 + index):
+                print(i, index - i)
+            index += 1  
+
+        return 
+    # TODU
+    def leastInterval(self, tasks, n):
+        from collections import Counter
+        c = Counter(tasks)
+        print(c)
+
+        return tasks
+
+    def numRescueBoats(self, people, limit):
+        """
+        :type people: List[int]
+        :type limit: int
+        :rtype: int
+        """
+        people.sort()
+        count = 0
+        i, j = 0, len(people) - 1
+        while i <= j:
+            if people[i] + people[i] <= limit:
+                i += 1
+            count += 1
+            j -= 1
+
+        return count
+
+a = Solution().numRescueBoats(
+    people = [3,5,3,4], limit = 5
 
 )
 
@@ -1278,18 +1324,21 @@ p(a)
 # print(square(3, 3))
 
 
-def newcode():
-    import math
-    while 1:
-        #每组第一行是N和M 
-        nm = list(map(int,input().split(" ")))
-        N = nm[0]
-        M = nm[1]
-        print(str(N) + ' ' + str(M))
-        # 接下来M行，每行a b c
-        for i in range(M):
-            abc = list(map(int,input().split(" ")))
-            a = abc[0]
-            b = abc[1]
-            c = abc[2]
-            print(str(a) + ' ' + str(b) + ' ' + str(c))
+# while 1:
+#     #每组第一行是N和M 
+#     #每组第一行是N和M 
+#     from collections import defaultdict
+#     from itertools import combinations
+#     d = defaultdict(int)
+#     nm = list(map(int,input().split(" ")))
+#     n, m = nm
+#     #print(n, m)
+#     res = list(map(int,input().split(" ")))
+#     #print(res)
+#     count = 0
+#     for n in res:
+#         d[n] += 1
+#     # print(d)
+#     max_d, min_d = max(d), min(d)
+#     if max_d - min_d <= m:
+#         print(0)
