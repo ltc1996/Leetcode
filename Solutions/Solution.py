@@ -1,3 +1,5 @@
+from functools import reduce
+from itertools import count
 import re
 
 
@@ -50,6 +52,9 @@ def p(obj):
         print(treeNodeToString(obj))
     elif isinstance(obj, ListNode):
         print(listNodeToString(obj))
+    elif isinstance(obj, list):
+        for line in obj:
+            print(line)
     else:
         print(obj)
 
@@ -1308,9 +1313,288 @@ class Solution(object):
 
         return count
 
-a = Solution().numRescueBoats(
-    people = [3,5,3,4], limit = 5
+    def countLargestGroup(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        from collections import defaultdict
+        def cal(n):
+            count = 0
+            for i in str(n):
+                count += int(i)
+            return count
+        d = defaultdict(int)
+        for i in range(1, n + 1):
+            d[cal(i)] += 1
+        res = 0
+        max_d = max(d.values())
+        for k, v in d.items():
+            if v == max_d:
+                res += 1
 
+        return res
+
+    def canConstruct(self, s, k):
+        """
+        :type s: str
+        :type k: int
+        :rtype: bool
+        """
+        from collections import Counter
+        c = Counter(s)
+        odd = 0
+        for v in c.values():
+            odd += v & 1
+        return odd <= k and len(s) >= k
+
+    def checkOverlap(self, radius, x_center, y_center, x1, y1, x2, y2):
+        """
+        :type radius: int
+        :type x_center: int
+        :type y_center: int
+        :type x1: int
+        :type y1: int
+        :type x2: int
+        :type y2: int
+        :rtype: bool
+        """
+        mid_x = (x1 + x2) / 2
+        mid_y = (y1 + y2) / 2
+        x1 -= mid_x
+        x2 -= mid_x
+        x_center -= mid_x
+        y1 -= mid_y
+        y2 -= mid_y
+        y_center -= mid_y
+        if x_center < 0:
+            x_center *= -1
+        if y_center < 0:
+            y_center *= -1
+        print(x_center, y_center, x1, y1, x2, y2)
+
+        # m1 = max(x_center - x1, 0) ** 2 + max(0, y_center - y1) ** 2
+        # m2 = max(x_center - x2, 0) ** 2 + max(0, y_center - y1) ** 2
+        # m3 = max(x_center - x1, 0) ** 2 + max(0, y_center - y2) ** 2
+        m4 = max(x_center - x2, 0) ** 2 + max(0, y_center - y2) ** 2
+        m = (x_center - x2) ** 2 + (y_center - y2) ** 2
+        # m = min(m1, m2, m3, m4)
+        if m4 <= radius ** 2:
+            return True
+        else:
+            return False
+    def maxSatisfaction(self, satisfaction):
+        """
+        :type satisfaction: List[int]
+        :rtype: int
+        """
+        R = 0
+        t = 0
+        satisfaction.sort(reverse=True)
+        for s in satisfaction:
+            t += s
+            N = R + t
+            if N >= R:
+                R = N
+        return R
+
+    def minSubsequence(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        s = 0
+        for num in nums:
+            s += num
+        res = []
+        tmp_s = 0
+        for num in sorted(nums, reverse=True):
+            if 2 * tmp_s <= s:
+                tmp_s += num
+                res.append(num)
+        return res
+
+    def numSteps(self, s):
+        count = 0
+        s = int(s, 2)
+        while s > 1:
+            if s & 1:
+                s += 1
+            else:
+                s = s >> 1
+            count += 1
+            # print(count, s)
+        return count
+
+    def longestDiverseString(self, a, b, c):
+        """
+        :type a: int
+        :type b: int
+        :type c: int
+        :rtype: str
+        """
+        s = ''
+        t = [a, b, c]
+        tt = ('a', 'b', 'c')
+        while any(t):
+            vis = set()
+            m = t.index(max(t[0], t[1], t[2]))
+            if t[0]:
+                if not s or s[0] != 'a':
+                    s = 'a' * min(t[0], 2) + s
+                    t[0] -= min(t[0], 2)
+            if t[0]:
+                if not s or s[-1] != 'a':
+                    s += 'a' * min(t[0], 2)
+                    t[0] -= min(t[0], 2)
+            if t[m]:
+                if not s or s[0] != tt[m]:
+                    s = tt[m] * min(t[m], 2) + s
+                    t[m] -= min(t[m], 2)
+            if t[m]:
+                if not s or s[-1] != tt[m]:
+                    s += tt[m] * min(t[m], 2)
+                    t[m] -= min(t[m], 2)
+            if t[1]:
+                if not s or s[0] != 'b':
+                    s = 'b' * min(t[1], 2) + s
+                    t[1] -= min(t[1], 2)
+            if t[1]:
+                if not s or s[-1] != 'b':
+                    s += 'b' * min(t[1], 2)
+                    t[1] -= min(t[1], 2)
+            if t[2]:
+                if not s or s[0] != 'c':
+                    s = 'c' * min(t[2], 2) + s
+                    t[2] -= min(t[2], 2)
+            if t[2]:
+                if not s or s[-1] != 'c':
+                    s += 'c' * min(t[2], 2)
+                    t[2] -= min(t[2], 2)
+        return s
+
+    def strWithout3a3b(self, A, B):
+        s = ''
+        while A or B:
+            if not s or s[0] != 'a':
+                t = min(A, 2)
+                s = 'a' * t + s
+                A -= t
+            if not s or s[-1] != 'a':
+                t = min(A, 2)
+                s = s + 'a' * t
+                A -= t
+            if not s or s[0] != 'b':
+                t = min(B, 2)
+                s = 'b' * t + s
+                B -= t
+            if not s or s[-1] != 'b':
+                t = min(B, 2)
+                s = s + 'b' * t
+                B -= t
+        return s
+
+    def numberOfArithmeticSlices(self, A):
+        from operator import __add__
+        n = len(A)
+        count = 2
+        ret = 0
+        for i in range(2, n):
+            if A[i] - A[i - 1] == A[i - 1] - A[i - 2]:
+                count += 1
+            else:
+                ret += reduce(__add__, range(1, count - 1))
+                count = 2
+        
+        ret += reduce(__add__, range(1, count - 1))
+        
+        # res.append(count)
+        # print(res)
+        # ret = reduce(__add__, [reduce(__add__, range(1, n - 1)) for n in res])
+        # for n in res:
+            # for i in range(2, n):
+            #     ret += n - i
+            # ret += reduce(lambda x, y: x + y, range(1, n - 1))
+
+        return ret
+
+    def minDistance(self, word1, word2):
+        """
+        :type word1: str
+        :type word2: str
+        :rtype: int
+        """
+        n1, n2 = map(len, (word1, word2))
+        if not n1 or not n2:
+            return n1 or n2
+        dp = [[0] * n1 for _ in range(n2)]
+
+        dp[0][0] = int(word1 != word2)
+        for i in range(1, n1):
+            dp[0][i] = 1 + dp[0][i - 1]
+        for j in range(1, n2):
+            dp[j][0] = 1 + dp[j - 1][0]
+
+        for i in range(1, n2):
+            tar = word2[i]
+            for j in range(1, n1):
+                if tar == word1[j]:
+                    dp[i][j] = dp[i - 1][j - 1]
+                else:
+                    dp[i][j] = 1 + min(dp[i - 1][j - 1], dp[i - 1][j], dp[i][j - 1])
+        for i in dp:
+            print(i)
+        return dp[-1][-1]
+
+    def countPrimes(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        dp = [1] * n
+        dp[0] = dp[1] = 0
+        for i in range(2, int(n ** 0.5) + 1):
+            if not dp[i]:
+                continue
+            dp[i * i: n: i] = [0] * len(dp[i * i: n: i])
+        print(dp)
+        return sum(dp)
+
+    def isValidSudoku(self, board):
+        nine = range(9)
+        three = range(3)
+        def judge(line):
+            alt = set()
+            for n in line:
+                if n != '.':
+                    if n not in alt:
+                        alt.add(n)
+                    else:
+                        return False
+            else:
+                return True
+        for i in nine:
+            row = board[i]
+            col = [board[j][i] for j in nine]
+            box = [board[i // 3 * 3 + x][i % 3 * 3 + y] for x in three for y in three]
+            # print(col, row, box)
+            if not all(map(judge, (row, col, box))):
+                return False
+        else:
+            return True
+
+a = Solution().isValidSudoku(
+    [
+        ["8","3",".",".","7",".",".",".","."],
+        ["6",".",".","1","9","5",".",".","."],
+        [".","9","8",".",".",".",".","6","."],
+        ["8",".",".",".","6",".",".",".","3"],
+        ["4",".",".","8",".","3",".",".","1"],
+        ["7",".",".",".","2",".",".",".","6"],
+        [".","6",".",".",".",".","2","8","."],
+        [".",".",".","4","1","9",".",".","5"],
+        [".",".",".",".","8",".",".","7","9"]
+    ]
 )
 
 p(a)
