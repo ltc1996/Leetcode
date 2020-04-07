@@ -1583,18 +1583,21 @@ class Solution(object):
         else:
             return True
 
-a = Solution().isValidSudoku(
-    [
-        ["8","3",".",".","7",".",".",".","."],
-        ["6",".",".","1","9","5",".",".","."],
-        [".","9","8",".",".",".",".","6","."],
-        ["8",".",".",".","6",".",".",".","3"],
-        ["4",".",".","8",".","3",".",".","1"],
-        ["7",".",".",".","2",".",".",".","6"],
-        [".","6",".",".",".",".","2","8","."],
-        [".",".",".","4","1","9",".",".","5"],
-        [".",".",".",".","8",".",".","7","9"]
-    ]
+    def generateParenthesis(self, n):
+        res = []
+        def helper(i, j, s):
+            if i > n or j > n or j > i:
+                return
+            if i == j == n:
+                res.append(s)
+                return
+            helper(i + 1, j, s + '(')
+            helper(i, j + 1, s + ')')
+        helper(0, 0, '')
+        return res
+
+a = Solution().generateParenthesis(
+    3
 )
 
 p(a)
