@@ -266,7 +266,7 @@ def set_readme(progress_dict, count):
     count_now = sum([len(progress_dict[k]) for k in progress_dict])
     title_now = TITLE.format(count_now)
     with open(file_path, 'w', encoding='utf-8') as f:
-        f.write(title_now + '\n')
+        f.write(title_now)
         for diff in progress_dict:
             diff_sep = DIFF_SEP.format(diff)
             f.write(diff_sep + '\n')

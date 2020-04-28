@@ -1,6 +1,10 @@
+from enum import Flag
 from functools import reduce
 from itertools import count
+from operator import le, lshift, setitem
 import re
+
+from re import search
 
 
 class TreeNode:
@@ -232,42 +236,42 @@ class Solution(object):
 
         return res
 
-    def calculate(self, s):
-        """
-        :type s: str
-        :rtype: int
-        """
-        from collections import deque
-        import re
-        res = 0
-        stack = []
-        sign = 1
-        n = len(s)
-        index = 0
-        while index < n:
-            if s[index] == ' ':
-                index += 1
-            elif s[index] == '-':
-                sign = -1
-                index += 1
-            elif s[index] == '+':
-                sign = 1
-                index += 1
-            elif s[index] == '(':
-                stack += [res, sign]
-                res = 0
-                sign = 1
-                index += 1
-            elif s[index] == ')':
-                res = res * stack.pop() + stack.pop()
-                index += 1
-            elif s[index].isdigit():
-                tmp = int(s[index])
-                while index < n and s[index].isdigit():
-                    tmp = 10 * tmp + int(s[index])
-                    index += 1
-                res += tmp * sign
-        return res
+    # def calculate(self, s):
+    #     """
+    #     :type s: str
+    #     :rtype: int
+    #     """
+    #     from collections import deque
+    #     import re
+    #     res = 0
+    #     stack = []
+    #     sign = 1
+    #     n = len(s)
+    #     index = 0
+    #     while index < n:
+    #         if s[index] == ' ':
+    #             index += 1
+    #         elif s[index] == '-':
+    #             sign = -1
+    #             index += 1
+    #         elif s[index] == '+':
+    #             sign = 1
+    #             index += 1
+    #         elif s[index] == '(':
+    #             stack += [res, sign]
+    #             res = 0
+    #             sign = 1
+    #             index += 1
+    #         elif s[index] == ')':
+    #             res = res * stack.pop() + stack.pop()
+    #             index += 1
+    #         elif s[index].isdigit():
+    #             tmp = int(s[index])
+    #             while index < n and s[index].isdigit():
+    #                 tmp = 10 * tmp + int(s[index])
+    #                 index += 1
+    #             res += tmp * sign
+    #     return res
 
     def countNegatives(self, grid):
         """
@@ -1596,8 +1600,966 @@ class Solution(object):
         helper(0, 0, '')
         return res
 
-a = Solution().generateParenthesis(
-    3
+    def movingCount(self, m, n, k):
+        """
+        :type m: int
+        :type n: int
+        :type k: int0
+        :rtype: int
+        """
+        count = 0
+        f = lambda x: x // 10 + x % 10
+        dirs = (
+            (0, 1),
+            (1, 0),
+        )
+        dp = [[0] * n for _ in range(m)]
+        def dfs(i, j):
+            if f(i) + f(j) > k:
+                return
+            dp[i][j] = 1
+            for dir in dirs:
+                x = i + dir[0]
+                y = j + dir[1]
+                if 0 <= x < m and 0 <= y < n and not dp[x][y]:
+                    # dp[x][y] = 1
+                    dfs(x, y)
+    
+        dfs(0, 0)
+
+        for i in dp:
+            print(i)
+            count += sum(i)
+
+        return count
+
+    def spiralOrder(self, matrix):
+        res = []
+        up, down =  0, len(matrix)
+        if down <= 1:
+            return matrix or matrix[0]
+        left, right = 0, len(matrix[0])
+        while left <= right and up <= down:
+            tmp = []
+            for i in range(left, right):
+                tmp.append(matrix[up][i])
+            up += 1
+            # print(1, tmp)
+            if tmp:
+                res += tmp
+            else:
+                break
+
+            tmp = []
+            for j in range(up, down):
+                tmp.append(matrix[j][right - 1])
+            right -= 1
+            # print(2, tmp)
+            if tmp:
+                res += tmp
+            else:
+                break            
+
+            tmp = []
+            for i in range(left, right):
+                tmp.append(matrix[down - 1][i])
+            down -= 1
+            # print(3, tmp)
+            if tmp:
+                res += tmp[::-1]
+            else:
+                break
+
+            tmp = []
+            for j in range(up, down):
+                tmp.append(matrix[j][left])
+            left += 1
+            # print(4, tmp)
+            if tmp:
+                res += tmp[::-1]
+            else:
+                break
+        print(res[0])
+        return 
+
+    def findKthLargest(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: int
+        """
+        import heapq
+        heapq.heapify(nums)
+        while len(nums) > k:
+            heapq.heappop(nums)
+        return nums[0]
+
+    def removeDuplicates(self, nums):
+        index = 0
+        for i in range(len(nums)):
+            if index < 2 or nums[i] != nums[index - 2]:
+                nums[index] = nums[i]
+                index += 1
+        return index
+
+    def checkPossibility(self, nums):
+        flag = True
+        for i in range(len(nums) - 1):
+            if nums[i] > nums[i + 1]:
+                if flag:
+                    nums[i] = nums[i + 1]
+                    flag = False
+                else:
+                    return False
+        return True
+
+    def groupAnagrams(self, strs):
+        from collections import Counter, defaultdict
+        d = defaultdict(list)
+        def helper(string):
+            c = Counter(string)
+            res = ''
+            for char in sorted(c):
+                res += char + str(c[char])
+            return res
+
+        for s in strs:
+            d[helper(s)].append(s)
+
+        return d.values()
+
+    def increasingTriplet(self, nums):
+        n = len(nums)
+        if n < 3:
+            return False
+        dp = [1] * n
+        for i in range(n - 1):
+            for j in range(i, n):
+                if nums[j] > nums[i]:
+                    if dp[i] >= 2:
+                        return True
+                    dp[j] = max(dp[j], 1 + dp[i + 1])
+        return False
+
+    def exist(self, board, word):
+        """
+        :type board: List[List[str]]
+        :type word: str
+        :rtype: bool
+        """
+        row, col = map(len, (board, board[0]))
+        self.flag = False
+        dirs = (
+            (0, 1),
+            (0, -1),
+            (-1, 0),
+            (1, 0),
+        )
+        def dfs(x, y, n, vis):
+            if n > len(word) - 1:
+                return 
+            if word[n] != board[x][y]:
+                return
+            if (x, y) in vis:
+                return
+            if vis[x][y]:
+                return
+            vis[x][y] = True
+            if n == len(word) - 1:
+                self.flag = True
+                return
+            # print('from', x, y, board[x][y], word[n], vis)
+            for dir in dirs:
+                dx = x + dir[0]
+                dy = y + dir[1]
+                if 0 <= dx < row and 0 <= dy < col:
+                    # print('to', dx, dy)
+                    dfs(dx, dy, n + 1, vis)
+            vis[x][y] = False
+
+        vis = [[False] * col for _ in range(row)]
+        for i in range(row):
+            for j in range(col):
+                if board[i][j] == word[0]:
+                    dfs(i, j, 0, vis)
+                    if self.flag:
+                        return True
+        return False
+
+    def maxProfit(self, prices):
+        res = 0
+        for i in range(1, len(prices)):
+            diff = prices[i] - prices[i - 1]
+            res += max(diff, 0)
+        return res
+
+    def evalRPN(self, tokens):
+        from operator import __add__, __sub__, __mul__, __truediv__ 
+        res = 0
+        operators = {
+            '+': __add__,
+            '-': __sub__,
+            '*': __mul__,
+            '/': __truediv__,
+        }
+        nums = []
+        for char in tokens:
+            if char in operators:
+                last = (int(nums.pop()), int(nums.pop()))[::-1]
+                res = int(operators[char](*last))
+                nums.append(str(res))
+            else:
+                nums.append(char)
+            # print(nums)
+        return res
+
+    def stringMatching(self, words):
+        res = set()
+        n = len(words)
+        if n <= 1:
+            return []
+        words.sort(key=lambda x: len(x))
+        # print(words)
+        for i in range(0, n - 1):
+            for j in range(i + 1, n):
+                # print(words[i], words[j])
+                if words[i] in words[j]:
+                    res.add(words[i])
+        return res
+
+    def processQueries(self, queries, m):
+        """
+        :type queries: List[int]
+        :type m: int
+        :rtype: List[int]
+        """
+        nums = [i + 1 for i in range(m)]
+        res = []
+        for i in queries:
+            index = nums.index(i)
+            nums = [i] + nums[:index] + nums[index + 1:]
+            res.append(index)
+            print(nums)
+        return res
+    
+    def entityParser(self, text):
+        import re
+        d = {
+            '&quot;': '"',
+            '&apos;': '\'',
+            '&amp;': '&',
+            '&gt;': '>',
+            '&lt;': '<',
+            '&frasl;': '/',
+        }
+        for k in d:
+            text = re.sub(k, d[k], text)
+        return text
+
+    def numOfWays(self, n):
+        from itertools import combinations, permutations
+        x, y = 6, 6
+        for _ in range(n - 1):
+            X, Y = x, y
+            x = X * 3 + Y * 2
+            y = X * 2 + y * 2
+        return (x + y) % 1000000007
+    
+    def calculate(self, s):
+        res = 0
+        stack = []
+        sign = 1
+        num = 0
+        for i in s:
+            if i.isdigit():
+                num = 10 * num + int(i)
+            elif i == '+':
+                res += num * sign
+                print(res)
+                num = 0
+                sign = 1
+            elif i == '-':
+                print(res)
+                res += num * sign
+                num = 0
+                sign = -1
+            elif i == '(':
+                stack.append(res)
+                stack.append(sign)
+                sign = 1
+                res = 0
+                print(stack)
+            elif i == ')':
+                res += num * sign
+                num = 0
+                res = stack.pop() * res + stack.pop()
+                print(stack)
+        res += num * sign
+        return res
+
+    def lengthOfLongestSubstring(self, s):
+        d = {}
+        n = len(s)
+        i, res = 0, 1
+        for j in range(n):
+            if s[j] in d:
+                i = max(i, d[s[j]])
+            res = max(res, j - i + 1)
+            d[s[j]] = j + 1
+        return res
+
+    def maximumSwap(self, num):
+        num_s = str(num)
+        nums = [i for i in num_s]
+        s = sorted(nums, reverse=True)
+        n = len(nums)
+        if nums == s:
+            return num
+        # print(nums, s)
+        for i in range(n):
+            if nums[i] < s[i]:
+                tmp = num_s.rindex(s[i])
+                nums[i], nums[tmp] = nums[tmp], nums[i]
+                break
+        return int(''.join(nums))
+
+    def minCount(self, coins):
+        res = 0
+
+    def numWays(self, n, relation, k):
+        """
+        :type n: int
+        :type relation: List[List[int]]
+        :type k: int
+        :rtype: int
+        """
+        from collections import defaultdict
+        d = defaultdict(list)
+        for i, j in relation:
+            d[i].append(j)
+        # print(d)
+        self.count = 0
+        # relation_n = len(relation)
+        def dfs(start, lst, l):
+            # print(lst)
+            if l >= k:
+                if lst[-1] == n - 1:
+                    self.count += 1
+                return
+            for i in d[start]:
+                dfs(i, lst + [i], l + 1)
+
+        dfs(0, [0], 0)
+
+        return self.count
+
+    def getTriggerTime(self, increase, requirements):
+        """
+        :type increase: List[List[int]]
+        :type requirements: List[List[int]]
+        :rtype: List[int]
+        """
+        res = []
+        n = len(increase) + 1
+        increase = [[0, 0, 0]] + increase
+        for i in range(1, n):
+            for j in range(3):
+                increase[i][j] += increase[i - 1][j]
+        # print(increase)
+        def helper(l1, l2):
+            for i in range(3):
+                if l1[i] < l2[i]:
+                    return False
+            return True
+
+        for curr in requirements:
+            print(curr)
+            for i in range(n):
+                if helper(increase[i], curr):
+                    print('y', increase[i], curr)
+                    res.append(i)
+                    break
+            else:
+                print('n')
+                res.append(-1)
+        print(res)
+        return res
+    
+
+    def minJump(self, jump):
+        n = len(jump)
+        dp = [float('inf')] * n
+        dp[0] = 0
+        # print(dp)
+        mark = []
+        for i in range(n):
+            max_jump = i + jump[i]
+            if max_jump >= n:
+                mark.append(i)
+                return 1 + dp[i]
+            dp[max_jump] = min(dp[max_jump], 1 + dp[i])
+            for j in mark:
+                dp[j] = min(dp[j], 1 + dp[i])
+        print(dp)
+        # return 1 + min(dp[i] for i in mark)
+
+    def minStartValue(self, nums):
+        n = len(nums)
+        m = 0
+        s = 0
+        for i in range(n):
+            s += nums[i]
+            print(s, m)
+            if s < 1:
+                print(1 - s)
+                m += 1 - s
+                s = 1
+            print('now', m, s)
+        return m or m + 1
+
+    def getHappyString(self, n, k):
+        """
+        :type n: int
+        :type k: int
+        :rtype: str
+        """
+        limit = 3 * 2 ** (n - 1)
+        print(limit)
+        if k > limit:
+            return ''
+        res = []
+        def helper(lst, l):
+            if l == n:
+                res.append(lst)
+                return
+            for i in ('a', 'b', 'c'):
+                if not lst or lst[-1] != i:
+                    helper(lst + i, l + 1)
+        helper('', 0)   
+        print(res)
+        return sorted(res)[k - 1]
+
+    def findMinFibonacciNumbers(self, k):
+        data = [1,1,2,3,5,8,13,21,34,55 , 89 ,144,233,377, 610, 987, 1597, 2584 , 4181, 6765, 10946, 17711,28657, 46368 ,75025,121393,
+196418, 317811, 514229, 832040, 1346269 , 2178309, 3524578, 5702887 , 9227465, 14930352, 24157817, 39088169,
+63245986 , 102334155 , 165580141, 267914296, 433494437 , 701408733, 1134903170, 1836311903][::-1]
+        n = len(data)
+        r = []
+        def helper(start, s):
+            if s == 0:
+                return 0
+            # print('sssssss', start)
+            for i in range(start, n):
+                # print(i, data[i])
+                if data[i] <= s:
+                    r.append(data[i])
+                    print(data[i])
+                    return 1 + helper(i, s - data[i])
+        res = helper(0, k)
+        print(r, sum(r))
+        return res
+
+    def numberOfArrays(self, s, k):
+        """
+        :type s: str
+        :type k: int
+        :rtype: int
+        """
+        res = 0
+        n = len(s)
+        t = len(str(k))
+        # print(n, t)
+        # if t >= n:
+        #     return int(k >= int(s))
+        for i in range(n):
+            # print(i)
+            try:
+                left = int(s[:i])
+                right = int(s[i:])
+                print(left, right)
+                if left <= k and right <= k:
+                    res += 1
+            except Exception as e:
+                print(e)
+        print(res)
+        return res % (10**9 + 7)
+
+    def reformat(self, s):
+        nums = []
+        chars = []
+        for char in s:
+            if char.isdigit():
+                nums.append(char)
+            else:
+                chars.append(char)
+        print(nums, chars)
+        res = ''
+        n1, n2 = map(len, (nums, chars))
+        if abs(n1 - n2) > 1:
+            return res
+        else:
+            if n1 > n2:
+                res += nums.pop()
+            while nums or chars:
+                if chars:
+                    res += chars.pop()
+                if nums:
+                    res += nums.pop()
+        return res
+
+    def displayTable(self, orders):
+        """
+        :type orders: List[List[str]]
+        :rtype: List[List[str]]
+        """
+        from collections import defaultdict
+        data = {}
+        a = set()
+        for _, num, cuisine in orders:
+            # print(num, cuisine)
+            a.add(cuisine)
+            n = int(num)
+            if n not in data:
+                data[n] = defaultdict(int)
+            data[n][cuisine] += 1
+        # print(data)
+        a = sorted(list(a))
+        res = []
+        res.append(['Table'] + a)
+        for table in sorted(data.keys()):
+            # print(table)
+            num = str(table)
+            tmp = [num]
+            for s in a:
+                tmp.append(str(data[table][s]))
+            # print(tmp)
+            res.append(tmp)
+        # print(res)
+        return res
+
+    def minNumberOfFrogs(self, croakOfFrogs):
+        """
+        :type croakOfFrogs: str
+        :rtype: int
+        """
+        frog = {
+            'c': 0,
+            'r': 0,
+            'o': 0,
+            'a': 0,
+            'k': 0,
+        }
+        res = 0        
+        for croakOfFrog in croakOfFrogs:
+            frog[croakOfFrog] += 1
+            # print(frog)
+            if frog['c'] >=  frog['r'] >= frog['o'] >= frog['a'] >= frog['k']:
+                if frog['c'] >=  frog['r'] >= frog['o'] >= frog['a'] >= frog['k'] >= 1:
+                    res = max(res, frog['c'],  frog['r'], frog['o'], frog['a'], frog['k'])
+                    for k in frog:
+                        frog[k] -= 1
+            else:
+                return -1
+        if len(set(frog.values())) != 1:
+            return -1
+        return res or -1
+
+    def numOfArrays(self, n, m, k):
+        """
+        :type n: int
+        :type m: int
+        :type k: int
+        :rtype: int
+        """
+        res = 1
+
+    def removeKdigits(self, num, k):
+        """
+        :type num: str
+        :type k: int
+        :rtype: str
+        """
+        n = len(num)
+        if n <= k:
+            return '0'
+        res = ''
+
+    def reorganizeString(self, S):
+        if not S:
+            return ''
+        d = {}
+        for s in S:
+            if s in d:
+                d[s] += 1
+            else:
+                d[s] = 1
+        # print(d)
+        v = d.values()
+        m = max(v)
+        l = len(S)
+        if l < 2 * m:
+            return ''
+        res = ''
+        c = sorted(d.items(), key=lambda x: x[1], reverse=True)
+        c = list(map(list, c))
+        while l:
+            for i in c:
+                if i[1]:
+                    res += i[0]
+                    i[1] -= 1
+                    l -= 1
+        return res
+
+    def translateNum(self, num):
+        num = str(num)
+        n = len(num)
+        if n <= 1:
+            return 1
+        dp = [1] * n
+        # print(int(num[:1]))
+        print('[' + ', '.join(num) +']')
+        for i in range(1, n):
+            dp[i] = dp[i - 1]
+            # print(num[i - 1], num[i])
+            if int(num[i - 1]) <= 2 and int(num[i]) <= 5:
+                dp[i] += dp[i - 2]
+                print(dp)
+        print('\n', dp)
+        return dp[-1]
+
+    def numberOfSubarrays(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: int
+        """
+        from collections import defaultdict
+        n = len(nums)
+        for i in range(n):
+            nums[i] &= 1
+        print(nums)
+        d = defaultdict(int)
+        s = res = 0
+        d[0] = 1
+        for i in range(1, 1 + n):
+            s += nums[i - 1]
+            print(s)
+            res += d[s - k]
+            d[s] += 1
+        return res
+
+    def searchRange(self, nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        """
+        res = []
+        left, right = 0, len(nums) - 1
+        mid = 0
+        while left < right:
+            mid = (left + right) >> 1
+            if nums[mid] >= target:
+                right = mid
+            else:
+                left = mid + 1
+        if not nums or nums[left] != target:
+            return [-1, -1]
+        right = l = r = left
+        while left >= 0 and nums[left] == target:
+            l = left
+            left -= 1
+        res.append(l)
+        while right < len(nums) and nums[right] == target:
+            r = right
+            right += 1
+        res.append(r)
+
+        return res
+
+    def waysToChange(self, n):
+        dp = [1] * (1 + n)
+        for i in (5, 10, 25):
+            for j in range(i, 1 + n):
+                dp[j] += dp[j - i]
+                dp[j] %= 1000000007
+                print(dp)
+            print()
+        # print(dp)
+        return dp[-1]
+
+    def findMaxForm(self, strs, m, n):
+        """
+        :type strs: List[str]
+        :type m: int        0
+        :type n: int        1
+        :rtype: int
+        """
+        res = 0
+        if m >= n:
+            f = lambda x: (1 + x.count('1')) / (1 + x.count('0'))#, x.count('0'))
+        else:
+            f = lambda x: (1 + x.count('0')) / (1 + x.count('1'))#, x.count('1'))
+        strs.sort(key=lambda x: (f(x), len(x)))
+        print(strs)
+        for string in strs:
+            # print(f(string))
+            zero = string.count('0')
+            one = string.count('1')
+            # print(string, zero, one)
+            if zero <= m and one <= n:
+                res += 1
+                m -= zero
+                n -= one
+        return res
+
+    def maxNumberOfFamilies(self, n, reservedSeats):
+        """
+        :type n: int
+        :type reservedSeats: List[List[int]]
+        :rtype: int
+        """
+        reservedSeats.sort(key=lambda x: x[0])
+        print(reservedSeats)
+        res = 0
+        row_last = -1
+        count = 0
+        row = reservedSeats[0][0]
+        while row <= n:
+            while row == row_last:
+                pass
+            else:
+                row_last = row
+                count += 1
+                dp = [0] * 10
+
+        for row, col in reservedSeats:
+            if row_last != row:
+                row_last = row
+                count += 1
+                dp = [0] * 10
+            dp[col - 1] = 1
+            s = []
+            for i in (1, 3, 5):
+                s.append(sum(dp[i: i + 4]) == 0)
+            print(s)
+            # if s[1]:
+            res += max(s[1], s[0] + s[2])
+            # else:
+            #     res += s[0] + s[2]
+        return res + 2 * (n - count)
+
+    def longestValidParentheses(self, s):
+        def helper(s, par):
+            res = left = right = 0
+            for i in s:
+                if i == par:
+                    left += 1
+                else:
+                    right += 1
+                    if left == right:
+                        res = max(res, 2 * min(left, right))
+                    if left < right:
+                        left = right = 0
+            return res
+        res = min(helper(s, '('), helper(s[::-1], ')'))
+        return res
+    
+    def splitArray(self, s):
+        from math import gcd
+        min_s = list(range(len(s)))
+        n = len(s)
+        dp = [[False] * n for _ in range(n)]
+        for i in range(n):
+            for j in range(i+1):
+                if s[i] == s[j] and (i - j < 2 or dp[j + 1][i - 1]):
+                    dp[j][i] = True
+                    # 说明不用分割
+                    if j == 0:
+                        min_s[i] = 0
+                    else:
+                        min_s[i] = min(min_s[i], min_s[j - 1] + 1)
+        return min_s[-1] + 1
+
+    
+    def minTime(self, time, m):
+        """
+        :type time: List[int]
+        :type m: int
+        :rtype: int
+        """
+        n = len(time)
+        if n <= m:
+            return 0
+        dp = [[float('inf') * (1 + n) for _ in range(m + 1)]]
+        for i in range(1, m + 1):
+            for j in range(i, n + 1):
+                for k in range(i - 1, j):
+                    s = sum(time[k:j]) - max(time[k:j])
+                    # print(s)
+                    dp[i][j] = min(dp[i][j], dp[i-1][k] + s)
+        print(dp)
+        
+
+    def maxScore(self, s):
+        res = 0
+        for i in range(1, len(s)):
+            # print(s[i:], s[:i])
+            num = s[:i].count('0') + s[i:].count('1')
+            # print(num)
+            res = max(res, num)
+        return res
+
+    def maxScore(self, cardPoints, k):
+        """
+        :type cardPoints: List[int]
+        :type k: int
+        :rtype: int
+        """
+        n = len(cardPoints)
+        if n <= k:
+            return sum(cardPoints)
+        s = 0
+        for i in range(0, n - k):
+            s += cardPoints[i]
+        print(s)
+        m = s
+        for i in range(n - k, n):
+            print(i, i - (n - k), cardPoints[i], cardPoints[i - (n - k)])
+            t = s + cardPoints[i] - cardPoints[i - (n - k)]
+            print(t)
+            m = min(m, t)
+            s = t
+        return sum(cardPoints) - m
+
+    def findDiagonalOrder(self, matrix):
+        from collections import deque
+        m, n, r = len(matrix), len(matrix) and len(matrix[0]), []
+        max_row = max(len(i) for i in matrix)
+        # print(max_row)
+        for i in matrix:
+            l = len(i)
+            if l < max_row:
+                i += [0] * (max_row - l)
+        # print(matrix)
+        n = max_row
+        for l in range(m + n - 1):
+            temp = []
+            for i in range(max(0, l + 1 - n), min(l + 1, m)):
+                t = matrix[i][l - i]
+                if t:
+                    temp.append(t)
+            # [matrix[i][l - i] for i in range(max(0, l + 1 - n), min(l + 1, m))]
+            r += temp[::-1]
+            # print(temp[::-1])
+        return r
+
+    def constrainedSubsetSum(self, nums, k) -> int:
+        from heapq import heappop, heappush
+        ans = float('-inf')
+        cur = 0
+        h = []
+        for i, n in enumerate(nums):
+            pres = 0
+            print('第', i, '个是', n)
+            while h:
+                pres, prei = heappop(h)
+                print('pres', 'prei', pres, prei)
+                if prei >= i - k:
+                    print('in')
+                    heappush(h, (pres, prei))
+                    break
+            cur = max(n - pres, n)
+            print('cur = ', cur)
+            heappush(h, (-cur, i))
+            print(h, '\n')
+            ans = max(cur, ans)
+        return ans
+
+    def allPathsSourceTarget(self, graph):
+        """
+        :type graph: List[List[int]]
+        :rtype: List[List[int]]
+        """
+        from collections import defaultdict
+        d = defaultdict(list)
+        for i, n in enumerate(graph):
+            for j in n:
+                d[i].append(j)
+        n = len(graph) - 1
+        # print(d)
+        res = []
+        def helper(start, lst):
+            print(start, n , lst)
+            if start == n:
+                res.append(lst)
+                return
+            if start not in d:
+                return
+            for next in d[start]:
+                helper(next, lst + [next])
+        helper(0, [0])
+        # print(res)
+        return res
+
+    def numTilePossibilities(self, tiles):
+        from collections import Counter
+        res = []
+        c = Counter(tiles)
+        alpha = set(tiles)
+        def helper(string, char, a_dit):
+            if not any(a_dit.values()):
+                return
+            string += char
+            a_dit[char] -= 1
+            res.append(string)
+            for char in alpha:
+                if a_dit[char]:
+                    helper(string, char, dict(a_dit))
+        for char in alpha:
+            helper('', char, dict(c))
+        print(res)
+        return len(res)
+
+    def combinationSum3(self, k, n):
+        """
+        :type k: int
+        :type n: int
+        :rtype: List[List[int]]
+        """
+        res = []
+        flag = [True] * 9
+        def helper(num, s, l, lst, f):
+            if l >= k:
+                if s == n:
+                    res.append(lst)
+                return
+            for i in range(num, 10):
+                p = f[:]
+                if p[i - 1]:
+                    p[i - 1] = False
+                    helper(i, s + i, l + 1, lst + [i], p)
+
+        for i in range(1, 10):
+            f = flag[:]
+            f[i - 1] = False
+            helper(i, i, 1, [i], f)
+        return res
+
+    def findDiagonalOrder(self, nums):
+        from collections import defaultdict
+        d = defaultdict(list)
+        res = []
+        for i in range(len(nums)):
+            for j in range(len(nums[i])):
+                d[i + j].append(nums[i][j])
+        print(d)
+        for i in sorted(list(d.keys())):
+            res.append(d[i][::-1])
+        print(res)
+
+a = Solution().findDiagonalOrder(
+    [[1,2,3,4,5],[6,7],[8],[9,10,11],[12,13,14,15,16]]
 )
 
 p(a)
@@ -1609,23 +2571,3 @@ p(a)
 #     return n + square(n - 1, time - 1)
 
 # print(square(3, 3))
-
-
-# while 1:
-#     #每组第一行是N和M 
-#     #每组第一行是N和M 
-#     from collections import defaultdict
-#     from itertools import combinations
-#     d = defaultdict(int)
-#     nm = list(map(int,input().split(" ")))
-#     n, m = nm
-#     #print(n, m)
-#     res = list(map(int,input().split(" ")))
-#     #print(res)
-#     count = 0
-#     for n in res:
-#         d[n] += 1
-#     # print(d)
-#     max_d, min_d = max(d), min(d)
-#     if max_d - min_d <= m:
-#         print(0)

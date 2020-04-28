@@ -1,14 +1,13 @@
 
 # LeetCode progress
 
-[![](https://img.shields.io/badge/LeetCode-281/1303-yellow.svg?style=social&logo=leetcode)](https://leetcode-cn.com/u/ltcccc/)
+[![](https://img.shields.io/badge/LeetCode-284/1303-yellow.svg?style=social&logo=leetcode)](https://leetcode-cn.com/u/ltcccc/)
 
 ![](https://img.shields.io/github/commit-activity/m/ltc1996/leetcode)
 ![](https://img.shields.io/github/last-commit/ltc1996/leetcode)
 
 | 序号 | 题目 |  语言 | 难度 |
 |---:|:-----:| :-------:|:----------:|
-
 |---| ----| ---- |困难| --- |
 |   42 | [接雨水](困难/0042%20接雨水.md) | **C++/Python** | 困难 |
 |   45 | [跳跃游戏II](困难/0045%20跳跃游戏II.md) | **Python** | 困难 |
@@ -37,6 +36,7 @@
 |   24 | [两两交互链表中的节点](中等/0024%20两两交互链表中的节点.md) | **Python** | 中等 |
 |   36 | [有效的数独](中等/0036%20有效的数独.md) | **Python** | 中等 |
 |   40 | [组合总和II](中等/0040%20组合总和II.md) | **Python** | 中等 |
+|   44 | [螺旋矩阵](中等/0044%20螺旋矩阵.md) | **Python** | 中等 |
 |   55 | [跳跃游戏](中等/0055%20跳跃游戏.md) | **Python** | 中等 |
 |   56 | [合并区间](中等/0056%20合并区间.md) | **Python** | 中等 |
 |   62 | [不同路径](中等/0062%20不同路径.md) | **C++/Python** | 中等 |

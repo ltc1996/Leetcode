@@ -8,15 +8,13 @@ using namespace std;
 int question1(int, int);
 int question2(int);
 int question2(int, int);
+vector<int> singleNumbers(vector<int>& nums);
+int nthUglyNumber(int n);
 
 int main()
-{
-    int N, M;
-    // 每组第一行是2个整数，N和M，至于为啥用while，因为是多组。
-    while (cin >> N >> M)
-        cout << N << " " << M << endl;
-    cout << question2(10, 3) << endl;
-    return 0;
+{   
+    int n = 5;
+    cout << nthUglyNumber(n) << endl;
 }
 
 int question1(int n, int m){
@@ -62,4 +60,51 @@ int question2(int n, int m) {
             cout << i << endl;*/
     }
     return dp[0];
+}
+
+vector<int> singleNumbers(vector<int>& nums)
+{
+    int res = 0;
+    for (int i : nums)
+        res ^= i;
+    //int index = res & (-res);
+    int index = 0;
+    while (((res & 1) == 0) && (index < 8 * sizeof(int)))
+    {
+        res >>= 1;
+        index++;
+    }
+    //cout << res << index << endl;
+    int num1 = 0, num2 = 0;
+    for (int i : nums) {
+        if (((i >> index) & 1) == 0)
+            num1 ^= i;
+        else
+            num2 ^= i;
+    }
+    return vector<int>{num1, num2};
+}
+
+int nthUglyNumber(int n)
+{
+    if (n <= 0)
+        return 0;
+    int* pUglyNumbers = new int[n];
+    pUglyNumbers[0] = 1;
+    int nextUglyIndex = 1;
+    const int* pm2 = pUglyNumbers;
+    const int* pm3 = pUglyNumbers;
+    const int* pm5 = pUglyNumbers;
+    while (nextUglyIndex < n)
+    {
+        int m = min(*pm2 * 2, min(*pm3 * 3, *pm5 * 5));
+        pUglyNumbers[nextUglyIndex++] = m;
+        while (*pm2 * 2 <= m) pm2++;
+        while (*pm3 * 3 <= m) pm3++;
+        while (*pm5 * 5 <= m) pm5++;
+        cout << *pm2 << *pm3 << *pm5 << endl;
+    }
+    int res = pUglyNumbers[n - 1];
+    delete[] pUglyNumbers;
+    return res;
 }
