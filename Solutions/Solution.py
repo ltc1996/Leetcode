@@ -2755,9 +2755,57 @@ class Solution(object):
 
         return 1
 
+    def solveNQueens(self, n: int) -> List[List[str]]:
+        res = []
+        if n <= 3:
+            return []
+        lines = [1 << i for i in range(n)]
+        def make_row(n, row):
+            line = ['.'] * row
+            for i in range(row):
+                if n & 1:
+                    line[i] = 'Q'
+                n = n >> 1
+            return ''.join(line)
 
-a = Solution().kthSmallest(
-    mat = [[1,3,11],[2,4,6]], k = 5
+        def dfs(row, occupy, lst, n, lines, vis_l, vis_r):
+            if row == n:
+                res.append(lst.copy())
+                return
+            for i in range(n):
+                if lines[i] & occupy == 0:
+                    tl, tr = map(set, (vis_l, vis_r))
+                    # print("第{}行第{}个".format(row, i))
+                    # print(bin(lines[i]), bin(occupy))
+                    left = row + i
+                    right = row - i
+                    if left in tl:
+                        continue
+                    tl.add(left)
+                    if right in tr:
+                        continue
+                    tr.add(right)
+                    # print(t)
+                    # print(i)
+                    occupy_n = lines[i] | occupy
+                    cur_line = make_row(lines[i], n)
+                    lst.append(cur_line)
+                    dfs(row + 1, occupy_n, lst, n, lines, tl, tr)
+                    lst.pop()
+        # for i in lines:
+        vis_l = vis_r = set()
+        dfs(0, 0, [], n, lines, vis_l, vis_r)
+        # print(make_row(2, 2))
+        # for i in res:
+        #     for j in i:
+        #         print(j)
+        #     print()
+        # print(len(res))
+        return res
+
+
+a = Solution().solveNQueens(
+    4
 )
 p(a)
 # def square(n, time):
