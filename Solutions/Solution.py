@@ -3,8 +3,8 @@ from functools import reduce
 from itertools import count
 from operator import le, lshift, setitem
 import re
-
-from re import search
+from re import match, search
+from typing import List
 
 
 class TreeNode:
@@ -2558,10 +2558,207 @@ class Solution(object):
             res.append(d[i][::-1])
         print(res)
 
-a = Solution().findDiagonalOrder(
-    [[1,2,3,4,5],[6,7],[8],[9,10,11],[12,13,14,15,16]]
-)
+    def findNumberIn2DArray(self, matrix, target):
+        """
+        :type matrix: List[List[int]]
+        :type target: int
+        :rtype: bool
+        """
+        row, col = len(matrix), len(matrix) and len(matrix[0])
+        r = 0
+        c = col - 1
+        while r < row and c >= 0:
+            curr = matrix[r][c]
+            if curr == target:
+                return True
+            if curr > target:
+                c -= 1
+            else:
+                r += 1
+            print(r, c)
+        return False
 
+    def letterCasePermutation(self, S):
+        res = []
+        n = len(S)
+        def helper(i, string, S, n):
+            if i >= n:
+                res.append(string)
+                return
+            curr = S[i]
+            if curr.isalpha():
+                s1 = string + curr.lower()
+                s2 = string + curr.upper()
+                helper(i + 1, s1, S, n)
+                helper(i + 1, s2, S, n)
+            else:
+                string += curr
+                helper(i + 1, string, S, n)
+            
+        helper(0, '', S, n)
+        return res
+
+    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+        res = []
+        n = len(nums)
+        if n == 0:
+            return []
+        def helper(nums, n, curr, lst, marked):
+            # print(lst)
+            if curr == n:
+                res.append(lst.copy())
+                return
+            for i in range(n):
+                if not marked[i]:
+                    if i and nums[i] == nums[i - 1] and not marked[i - 1]:
+                        continue
+                
+                    marked[i] = True
+                    lst.append(nums[i])
+                    helper(nums, n, curr + 1, lst, marked)
+                    marked[i] = False
+                    lst.pop()
+
+        nums.sort()
+        marked = [False] * n
+        helper(nums, n, 0, [], marked)
+        return res
+
+    def kidsWithCandies(self, candies: List[int], extraCandies: int) -> List[bool]:
+        return [i + extraCandies >= max(candies) for i in candies]
+
+    def maxDiff(self, num: int) -> int:
+        s = str(num)
+        n = len(s)
+        a = b = s
+        for i in range(n):
+            if s[i] != '9':
+                a = s.replace(s[i], '9')
+                break
+        if n == 1:
+            b = '1'
+        else:
+            if s[0] == '1':
+                i = 1
+                while i < n:
+                    if s[i] != '0' and s[i] != '1':
+                        b = s.replace(s[i], '0')
+                        # print(b)
+                        break
+                    i += 1
+            else:
+                b = s.replace(s[0], '1')
+        print(a, b)
+        return int(a) - int(b)
+
+    def checkIfCanBreak(self, s1: str, s2: str) -> bool:
+        n1, n2 = map(len, (s1, s2))
+        if n1 - n2:
+            return False
+        str1 = sorted([i for i in s1])
+        str2 = sorted([j for j in s2])
+        print(str1, str2)
+        def judge(s1, s2, n):
+            for i in range(n):
+                print(s1[i], s2[i])
+                if s1[i] < s2[i]:
+                    print(i)
+                    return False
+            return True
+        return judge(str1, str2, n1) or judge(str2, str1, n1)
+
+    def numberWays(self, hats: List[List[int]]) -> int:
+        n = len(hats)
+        dp = [0] * (1 << n)
+        connected = [[0] * 41 for _ in range(n + 1)]
+        for i in range(n):
+            for j in hats[i]:
+                connected[i + 1][1 + j] = 1
+        dp[0] = 1
+        for mask in range(1, n):
+            # print(mask)
+            i = bin(mask).count('1') - 1
+            # print(i)
+            for j in range(40):
+                if mask & (1 << j) and connected[i][j]:
+                    print(j)
+                    # print(1111111)
+                    dp[mask] += dp[mask - (1 << j)]
+                    # dp[mask] %= 10**9 + 7
+        print(dp)
+        return dp[-1]
+
+    def destCity(self, paths: List[List[str]]) -> str:
+        from collections import defaultdict
+        d = {}#defaultdict(list)
+        for _from, _to in paths:
+            if _from not in d:
+                d[_from] = _to
+        # print(d)
+        for _from, _to in paths:
+            if _to not in d:
+                # print(_from, _to)
+                return _to
+        
+    def kLengthApart(self, nums: List[int], k: int) -> bool:
+        res = []
+        if not nums:
+            return True
+        n = len(nums)
+        for i in range(n):
+            if nums[i] & 1:
+                res.append(i)
+        # print(res)
+        n = len(res)
+        if n <= 1:
+            return True
+        last = res[0]
+        for i in range(1, n):
+            if res[i] - last >= k + 1:
+                last = res[i]
+            else:
+                return False
+        else:
+            return True
+
+    def longestSubarray(self, nums: List[int], limit: int) -> int:
+        from itertools import combinations, permutations
+        c = permutations(range(3), 2)
+        print(list(c))
+
+    def kthSmallest(self, mat: List[List[int]], k: int) -> int:
+        n = len(mat)
+        k = min(k, n ** 2)
+        import heapq
+        mark = [0] * n
+        def helper(mat, lst):
+            res = 0
+            n = len(mat)
+            for i in range(n):
+                res += mat[i][lst[i]]
+            return res
+        head = []
+        res = 0
+        for i in range(n):
+            heapq.heappush(head, (-mat[i][0], 0, 0))
+            res += mat[i][0]
+        print(head)
+
+        # res = helper(mat, mark)
+        while k:
+            cur, x, y = heapq.heappop(head)
+            print(-cur, x, y)
+            res -= cur
+            res += mat[x][y + 1]
+            heapq.heappush(head, (-mat[x][y + 1], x, y + 1))
+            k -= 1
+
+        return 1
+
+
+a = Solution().kthSmallest(
+    mat = [[1,3,11],[2,4,6]], k = 5
+)
 p(a)
 # def square(n, time):
 #     try:
