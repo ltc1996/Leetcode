@@ -607,10 +607,6 @@ class Solution(object):
 
         return res
 
-    def findTheLongestSubstring(self, s):
-        # vowel = ('a'，'e'，'i'，'o'，'u')
-        return s
-
     def numOfMinutes(self, n, headID, manager, informTime):
         """
         :type n: int
@@ -2795,24 +2791,170 @@ class Solution(object):
         # for i in lines:
         vis_l = vis_r = set()
         dfs(0, 0, [], n, lines, vis_l, vis_r)
-        # print(make_row(2, 2))
-        # for i in res:
-        #     for j in i:
-        #         print(j)
-        #     print()
-        # print(len(res))
+
         return res
 
+    def buildArray(self, target: List[int], n: int) -> List[str]:
+        res = []
+        i = 1
+        j = 0
+        l = len(target)
+        while i <= n and j < l:
+            res.append('Push')
+            if i != target[j]:
+                res.append('Pop')
+            if i == target[j]:
+                j += 1
+            i += 1
+            #     if j >= l:
+            #         break
+        print(res)
 
-a = Solution().solveNQueens(
-    4
+    def countTriplets(self, arr: List[int]) -> int:
+        n = len(arr)
+        arr2 = arr[:]
+        for i in range(1, n):
+            arr2[i] ^= arr2[i - 1]
+        print(arr2)
+        res = 0
+        for i in range(n):
+            for j in range(i + 1, n):
+                for k in range(j, n):
+                    if arr2[j - 1] ^ arr2[i] ^ arr[i] == arr2[k] ^ arr2[j - 1]:
+                        res += 1
+        # print(res)
+        return res
+
+    def minTime(self, n: int, edges: List[List[int]], hasApple: List[bool]) -> int:
+        from collections import defaultdict
+        d = defaultdict(list)
+        for _from, _to in edges:
+            d[_from].append(_to)
+        res = []
+        print(d)
+        def helper(i, lst):
+            if i not in d:
+                res.append(lst)
+                return
+            for next in d[i]:
+                helper(next, lst + [next])
+        helper(0, [0])
+        res.sort(key=lambda x: len(x))
+        print(res)
+        d = defaultdict(int)
+        d[0] = 0
+        flag = [False] * n
+        for i in res:
+            f = False
+            for j in range(len(i) - 1, 0, -1):
+                if hasApple[i[j]]:
+                    f = True
+                if f:
+                    flag[i[j]] = flag[i[j - 1]] = True
+                # d[i[j]] = 1 + d[i[j - 1]]
+        # print(d, flag)
+        return max(0, 2 * (sum(flag) - 1))
+
+    def maxPower(self, s: str) -> int:
+        if not s:
+            return 0
+        res = 1
+        tmp = 0
+        last = ''
+        for i in s:
+            if i == last:
+                tmp += 1
+                res = max(res, tmp)
+            else:
+                tmp = 1
+                last = i
+        return res
+
+    def simplifiedFractions(self, n: int) -> List[str]:
+        from math import gcd
+        res = []
+        for i in range(2, 1 + n):
+            for j in range(1, n):
+                # print(i, j)
+                if j == 1 or gcd(i, j) == 1 and j < i:
+                    t = str(j) + '/' + str(i)
+                    res.append(t)
+        print(res)
+        # return res
+
+    def largestNumber(self, cost: List[int], target: int) -> str:
+        self.res = 0
+        from collections import defaultdict
+        d = defaultdict(str)
+        for i in range(9):
+            d[cost[i]] = 1 + i
+        print(d)
+        def helper(t, cost, lst, d):
+            if t < 0:
+                return
+            if t == 0:
+                self.res = max(self.res, lst)
+                return
+            for i in d:
+                helper(t - i, cost, 10 * lst + d[i], d)
+        helper(target, cost, 0, d)
+        return self.res
+
+    def busyStudent(self, startTime: List[int], endTime: List[int], queryTime: int) -> int:
+        n = len(startTime)
+        res = 0
+        for i in range(n):
+            if startTime[i] <= queryTime <= endTime[i]:
+                res += 1
+        return res
+
+    def arrangeWords(self, text: str) -> str:
+        res = ''
+        string = text.lower().split(' ')
+        # print(string)
+        a = sorted(string, key=lambda x: len(x))
+        return ' '.join(a).capitalize()
+
+    def peopleIndexes(self, favoriteCompanies: List[List[str]]) -> List[int]:
+        res = []
+        n = len(favoriteCompanies)
+        favoriteCompanies = list(map(set, favoriteCompanies))
+        print(favoriteCompanies)
+        for i in range(n):
+            cur = favoriteCompanies[i]
+            for j in range(n):
+                if i == j:
+                    continue
+                if cur.issubset(favoriteCompanies[j]):
+                    break
+            else:
+                res.append(i)
+
+    def findTheLongestSubstring(self, s: str) -> int:
+        D = {"a": 1, "e": 2, "i": 4, "o": 8, "u": 16}
+        L = {0: 0}
+        m = t = 0
+        for i, c in enumerate(s, 1):
+            t ^= D.get(c, 0)
+            m = max(m, i - L.setdefault(t, i))
+        return m
+
+    def sequentialDigits(self, low: int, high: int) -> List[int]:
+        string = ''.join(chr(i) for i in range(49, 58))
+        nums = [int(string[:i]) for i in range(1, 10)]
+        res = []
+        for i, n in enumerate(nums):
+            nine = 10 ** (i + 1) - 1
+            eleven = nine // 9
+            # print(n, eleven)
+            while n <= high and n % 10:
+                if n >= low:
+                    res.append(n)
+                n += eleven
+        return res
+
+a = Solution().sequentialDigits(
+    58,
+    155
 )
 p(a)
-# def square(n, time):
-#     try:
-#         1 / time
-#     except:
-#         return n
-#     return n + square(n - 1, time - 1)
-
-# print(square(3, 3))
