@@ -2953,8 +2953,340 @@ class Solution(object):
                 n += eleven
         return res
 
-a = Solution().sequentialDigits(
-    58,
-    155
+    def maxVowels(self, s: str, k: int) -> int:
+        res = 0
+        n = len(s)
+        aeiou = ('a', 'e', 'i', 'o', 'u')
+        ori = s[:k]
+        for i in ori:
+            if i in aeiou:
+                res += 1
+        tmp = res
+        print(ori, res)
+        for i in range(1, n - k + 1):
+            print(s[i: i + k], res, s[i - 1], s[i + k - 1])
+            tmp += (s[i + k - 1] in aeiou) - (s[i - 1] in aeiou)
+            # tmp += d.get(s[i + k], 0) - d.get(s[i - 1], 0)
+            res = max(res, tmp)
+        return res
+
+    def maxDotProduct(self, nums1: List[int], nums2: List[int]) -> int:
+        n1, n2 = map(len, (nums1, nums2))
+        if not (n1 and n2):
+            return 0
+        res = nums1[0] * nums2[0]
+        dp = [[float('-inf')] * (1 + n2) for _ in range(1 + n1)]
+
+        for i in range(n1):
+            for j in range(n2):
+                tmp = nums1[i] * nums2[j]
+                # if tmp >= 0:
+                dp[i][j] = max(tmp, tmp + dp[i - 1][j - 1], dp[i][j - 1], dp[i - 1][j])
+                # else:
+                #     dp[i][j] = max(dp[i][j - 1], dp[i - 1][j])
+                res = max(res, dp[i][j])
+        print(dp)
+        return res
+    
+    def decodeString(self, s: str) -> str:
+        res = ''
+        stack = []
+        n = 0
+        for i in s:
+            # print(i)
+            if i.isdigit():
+                n = 10 * n + ord(i) - 48
+                # print(n)
+            elif i == '[':
+                # stack.append(res)
+                stack.append(n)
+                stack.append(res)
+                # print(res, n, stack, '[')
+                n = 0
+                res = ''
+            elif i == ']':
+                # print(res)
+                res = stack.pop() + res * stack.pop()
+                # print(res)
+                # print(res, stack, ']')
+                # stack.append(res)
+            else:
+                res += i
+        return res
+
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        ans, s, hs = 0, [0], [0, *heights, 0]
+        for i, h in enumerate(hs):
+            # print(i, h)
+            while hs[s[-1]] > h:
+                ans = max(ans, (i - s[-2] - 1) * hs[s.pop()])
+            s.append(i)
+            print(s, i)
+        return ans
+
+    def hasAllCodes(self, s: str, k: int) -> bool:
+        dp = [False] * 2 ** k
+        # print(dp)
+        for i in range(len(s) - k + 1):
+            t = s[i: i + k]
+            m = int(t, 2)
+            if 0 <= m < 2 ** k:
+                dp[m] = True
+        return all(dp)
+
+    def checkIfPrerequisite(self, n: int, prerequisites: List[List[int]], queries: List[List[int]]) -> List[bool]:
+        from collections import defaultdict
+        d = defaultdict(set)
+        dp = []
+        for _from, _to in prerequisites:
+            d[_from].add(_to)
+
+        def dfs(d, x, y):
+            if x not in d:
+                return False
+            if y in d[x]:
+                return True
+            else:
+                for z in d[x]:
+                    if dfs(d, z, y):
+                        return True
+                else:
+                    return False
+        
+        for x, y in queries:
+            # print(x, y)
+            dp.append(dfs(d, x, y))
+
+        return dp
+
+    def maxProduct(self, nums: List[int]) -> int:
+        nums.sort()
+        return (nums[-1] - 1) * (nums[-2] - 1)
+
+    def maxArea(self, h: int, w: int, horizontalCuts: List[int], verticalCuts: List[int]) -> int:
+        horizontalCuts = [0] + [*sorted(horizontalCuts)] + [h]
+        verticalCuts = [0] + [*sorted(verticalCuts)] + [w]
+        def dp(lst):
+            res = float('-inf')
+            for i in range(1, len(lst)):
+                res = max(res, lst[i] - lst[i - 1])
+            return res
+        print(horizontalCuts, verticalCuts)
+        print(dp(horizontalCuts), dp(verticalCuts))
+        return dp(horizontalCuts) * dp(verticalCuts)
+
+    def minReorder(self, n: int, connections: List[List[int]]) -> int:
+        from collections import defaultdict
+        self.res = 0
+        d = defaultdict(list)
+        for x, y in connections:
+            d[x].append(y)
+        edge = [[x, y] if x < y else [y, x] for x, y in connections]
+        # edge = sorted(edge, key=lambda x: x[0])
+        print(edge)
+        cd = defaultdict(list)
+        for x, y in edge:
+            cd[x].append(y)
+        print(cd)
+        def dfs(start, next):
+            if start not in d or start not in d[next]:
+                self.res += 1
+            for z in cd[start]:
+                dfs(z, start)
+        for i in cd[0]:
+            dfs(0, i)
+
+        return self.res
+
+    def getStrongest(self, arr: List[int], k: int) -> List[int]:
+        
+        # res = []
+        arr.sort()
+        n = len(arr)
+        mid = arr[(n - 1) >> 1]
+        print(mid)
+        arr.sort(key=lambda x: (abs(x - mid), x))
+        print(arr)
+        # res = sorted([abs(i - mid) for i in arr])[n - k:]
+        # print(mid)
+        return arr[n - k:]
+
+    def minCost(self, houses: List[int], cost: List[List[int]], m: int, n: int, target: int) -> int:
+        dp = [[[0] * m] for _ in range(n) for _ in range(target)]
+        print(dp)
+        for i in range(m):
+            for j in range(n):
+                for k in range(target):
+                    dp[i][j]
+        return 0
+
+    def finalPrices(self, prices: List[int]) -> List[int]:
+        n = len(prices)
+        res = prices[:]
+        for i in range(n - 1):
+            for j in range(i + 1, n):
+                if prices[j] <= prices[i]:
+                    res[i] = prices[i] - prices[j]
+                    break
+        return res
+
+    def minSumOfLengths(self, nums: List[int], k: int) -> int:
+        res = -1
+        s = 0
+        t = []
+        n = len(nums)
+        d = {}
+        for i in range(n):
+            s += nums[i]
+            d[s] = i
+            if s - k in d:
+                t.append((i, d[s - k]))
+            print(t)
+        return -1
+    
+    def minDistance(self, houses: List[int], k: int) -> int:
+        res = 0
+        houses.sort()
+        n = len(houses)
+        if n <= k:
+            return 0
+        dp = [[float('inf')] * (1 + k) for _ in range(1 + max(houses))]
+        dp[houses[0]][0] = 0
+        # print(dp)
+        # for i in range(1, n):
+        #     for j in range(k):
+        #         dp[houses[i]][j] = min(       \
+        #                 # 不放
+        #                 houses[i] - houses[i - 1] + dp[houses[i - 1][j]],    \  
+        #                 # 放
+        #                                 )
+
+        #         print(dp)
+        
+        return dp[max(houses)][k]
+
+    def findLeastNumOfUniqueInts(self, arr: List[int], k: int) -> int:
+        from collections import Counter, defaultdict
+        c = Counter(arr)
+        # print(c)
+        d = defaultdict(list)
+        for _k in c:
+            d[c[_k]].append(_k)
+        print(d)
+        keys = sorted(d.keys())
+        print(keys)
+        r = []
+        for i in keys:
+            for j in d[i]:
+                r += i * [j]
+        print(r)
+        # arr.sort(key=lambda x: arr.count(x))
+        
+        return len(Counter(r[k:]))
+
+
+    def reorderedPowerOf2(self, N: int) -> bool:
+        from itertools import permutations
+        from functools import reduce
+        from operator import __add__
+
+        f = lambda lst, n: [lst[i] * 10 ** (n - i - 1) for i in range(n)]
+        g = lambda lst: (lst, len(lst))
+        
+        nums = [int(n) for n in str(N)]
+        power = [2 ** i for i in range(30)]
+        vis = set()
+        print(power)
+        for lst in permutations(*g(nums)):
+            if lst in vis:
+                continue
+            vis.add(lst)
+            a = reduce(__add__, f(*g(lst)), 0)
+            print(a)
+            if a in power:
+                return True
+        else:
+            return False
+
+    def isMatch(self, s: str, p: str) -> bool:
+        """
+        s: 字符串
+        p: 正则表达式
+        """
+        m, n = map(len, (s, p))
+
+        def match(i: int, j: int) -> bool:
+            if i == 0:
+                return False
+            if p[j - 1] == '.':
+                return True
+            return s[i - 1] == p[j - 1]
+        
+        dp = [[False] * (n + 1) for _ in range(m + 1)]
+        dp[0][0] = True
+
+        for i in range(m + 1):
+            for j in range(1, n + 1):
+                if p[j - 1] == '*':
+                    dp[i][j] |= dp[i][j - 2]
+                    if match(i, j - 1):
+                        dp[i][j] |= dp[i - 1][j]
+                else:
+                    if match(i, j):
+                        dp[i][j] |= dp[i - 1][j - 1]
+
+        return dp[m][n]
+
+    def xorOperation(self, n: int, start: int) -> int:
+        from operator import __xor__
+        from functools import reduce
+        return reduce(__xor__, [2 * i + start for i in range(n)])
+
+    def getFolderNames(self, names: List[str]) -> List[str]:
+        from collections import defaultdict
+        res = []
+        vis = defaultdict(int)
+
+        for file in names:
+            if file in vis:
+                n = vis[file]
+                print(n)
+                s = file + '({})'
+                while s.format(n) in vis:
+                    n += 1
+                s = s.format(n)
+                print(s)
+                vis[s] = 1
+                res.append(s)
+            else:
+                res.append(file)
+                vis[file] = 1
+            print()
+            
+        return res
+
+    def subdomainVisits(self, cpdomains: List[str]) -> List[str]:
+        from collections import defaultdict
+        d = defaultdict(int)
+        for cpdomain in cpdomains:
+            n, domain = cpdomain.split(' ')
+            do = domain.split('.')
+            tmp = ''
+            for i in range(len(do) - 1, -1, -1):
+                if i == len(do) - 1:
+                    tmp = do[i]
+                else:
+                    tmp = do[i] + '.' + tmp
+                d[tmp] += int(n)
+        return [str(value) + ' ' + key for key, value in d.items()]
+
+
+a = Solution().subdomainVisits(
+    [
+        "900 google.mail.com", 
+        "50 yahoo.com", 
+        "1 intel.mail.com", 
+        "5 wiki.org"
+    ]
 )
 p(a)
