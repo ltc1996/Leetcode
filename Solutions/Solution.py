@@ -1,9 +1,9 @@
 from enum import Flag
 from functools import reduce
 from itertools import count
-from operator import le, lshift, setitem
+from operator import imod, le, lshift, setitem
 import re
-from re import match, search
+from re import T, match, search
 from typing import List
 
 
@@ -3280,13 +3280,559 @@ class Solution(object):
                 d[tmp] += int(n)
         return [str(value) + ' ' + key for key, value in d.items()]
 
+    def average(self, salary: List[int]) -> float:
+        min_s = min(salary)
+        max_s = max(salary)
+        n = len(salary)
+        s = sum(salary)
+        return (s - min_s - max_s) / (n - 2)
 
-a = Solution().subdomainVisits(
-    [
-        "900 google.mail.com", 
-        "50 yahoo.com", 
-        "1 intel.mail.com", 
-        "5 wiki.org"
-    ]
+    def kthFactor(self, n: int, k: int) -> int:
+        res = []
+        N = n
+        part = int(n ** 0.5)
+        if part ** 2 == n:
+            s = 0
+        else:
+            s = 1
+        n = 0
+        for i in range(1, 1 + part):
+            if N % i == 0:
+                n += 1
+                res.append(i)
+                if n == k:
+                    return i
+        print(res)
+        n = len(res)
+        if n >= k:
+            return res[k - 1]
+        if s == 0:
+            if 2 * n - 1 < k:
+                return -1
+            else:
+                if n >= k:
+                    return res[k - 1]
+                else:
+                    print(res[k - n], k - n)
+                    return N // res[k - n]
+        if s == 1:
+            if 2 * n < k:
+                return -1
+            else:
+                if n >= k:
+                    return res[k - 1]
+                else:   
+                    # print(res[k - n], k - n)
+                    return N // res[n - k]
+
+    def longestSubarray(self, nums: List[int]) -> int:
+        n = len(nums)
+        if n <= 2:
+            return nums.count(1)
+        dp = [0] * n
+        dp[0] = int(nums[0] == 1)
+        for i in range(1, n):
+            if nums[i] == 1:
+                dp[i] = 1 + dp[i - 1]
+        print(dp)
+        for i in range(n - 2, -1, -1):
+            if nums[i] and dp[i + 1]:
+                dp[i] = dp[i + 1]
+        print(dp)
+        res = max(dp[0], dp[-1])
+        # if nums[0] == 0:
+        #     res = dp[1]
+        # if nums[-1] == 0:
+        #     res = max(dp[-2], res)
+        print(res)
+        for i in range(1, n - 1):
+            if nums[i] == 0:
+                res = max(res, dp[i - 1] + dp[i + 1])
+        return res - 1 if res == n else res
+
+
+    def minNumberOfSemesters(self, n: int, dependencies: List[List[int]], k: int) -> int:
+        from collections import defaultdict
+        if not dependencies:
+            return n // k + int(n % k > 0)
+        # if len(dependencies) == 1:
+        #     return n // k
+        Benz = defaultdict(set)
+        Tesla = defaultdict(int)
+        DasAuto = defaultdict(int)
+        BMW = 0
+        for _from, _to in dependencies:
+            Benz[_to].add(_from)
+        print(Benz)
+        def dfs(root):
+            for node in Benz[root]:
+                Tesla[node] = max(Tesla[root] + 1, Tesla[node])
+                dfs(node)
+        Tesla[n] = 0
+        left = 0
+        for i in range(1, n + 1):
+            if i in Benz:
+                dfs(i)
+            else:
+                left += 1
+        print(Tesla)
+        for key in Tesla:
+            DasAuto[Tesla[key]] += 1
+        print(DasAuto)
+        for key in DasAuto:
+            t = DasAuto[key] % k
+            if t == 0:
+                BMW += DasAuto[key] // k
+            else:
+                if left:
+                    t -= min(k - DasAuto[key] % k, t)
+                    BMW += DasAuto[key] // k + 1
+                else:
+                    BMW += DasAuto[key] // k
+        return BMW
+
+    def numSubmat(self, matrix: List[List[int]]) -> int:
+        maxarea = 0
+        res = 0
+
+        dp = [[0] * len(matrix[0]) for _ in range(len(matrix))]
+        for i in range(len(matrix)):
+            for j in range(len(matrix[0])):
+                if not matrix[i][j]: 
+                    continue
+
+                # compute the maximum width and update dp with it
+                width = dp[i][j] = dp[i][j-1] + 1 if j else 1
+
+                # compute the maximum area rectangle with a lower right corner at [i, j]
+                for k in range(i, -1, -1):
+                    width = min(width, dp[k][j])
+                    maxarea = max(maxarea, dp[k][j] + (i-k+1))
+                    res += maxarea
+        return res
+
+    def rangeSum(self, nums: List[int], n: int, left: int, right: int) -> int:
+        BMW = []
+        for i in range(n):
+            tmp = 0
+            for j in range(i, n):
+                tmp += nums[j]
+                BMW.append(tmp)
+        BMW.sort()
+        return sum(BMW[left - 1: right])
+
+    def minDifference(self, nums: List[int]) -> int:
+        n = len(nums)
+        if n <= 4:
+            return 0
+        nums.sort()
+        # 012
+        # 0 1 -1
+        # 0 -2 -1
+        # -3 -2 -1
+        _0 = nums[-1] - nums[3]
+        _1 = nums[-2] - nums[2]
+        _2 = nums[-3] - nums[1]
+        _3 = nums[-4] - nums[0]
+        return min(_0, _1, _2, _3)
+
+    def winnerSquareGame(self, n: int) -> bool:
+        BMW = [False] * (1 + n)
+        for i in range(1, 1 + n):
+            for j in range(1, 1 + i):
+                if j ** 2 <= i and not BMW[i - j ** 2]:
+                    BMW[i] = True
+                    break
+        return BMW[-1]
+
+    def maxProbability(self, n: int, edges: List[List[int]], succProb: List[float], start: int, end: int) -> float:
+        from collections import defaultdict
+        edge = len(edges)
+        d = defaultdict(list)
+        p = defaultdict(float)
+        if start > end:
+            start, end = end, start
+        self.res = 0
+        for i in range(edge):
+            _from, _to = edges[i]
+            d[_from].append(_to)
+            if _from > _to:
+                _from, _to = _to, _from
+            p[(_from, _to)] = succProb[i]
+        print(d)
+        print(p)
+        print()
+        def dfs(i, pro):
+            if i == end:
+                self.res = max(self.res, pro)
+                return
+            if i in d:
+                for j in d[i]:
+                    if i > j:
+                        i, j = j, i
+                    # print(i, j)
+                    dfs(j, pro * p[(i, j)])
+        dfs(end, 1)
+        return self.res
+
+    def countSubTrees(self, n: int, edges: List[List[int]], labels: str) -> List[int]:
+        from collections import defaultdict
+        dp = [''] * n
+        dp[0] = labels[0]
+        d = defaultdict(list)
+        for i in range(n - 1):
+            _from, _to = edges[i]
+            dp[i + 1] = labels[i + 1]
+            d[_from].append(_to)
+            d[_to].append(_from)
+        print(d, dp)
+        def dfs(node, str, vis):
+            if node in vis:
+                return 0
+            if node not in d:
+                return int(dp[node] == str)
+            tmp = 0
+            if dp[node] == str:
+                tmp += 1
+            for _node in d[node]:
+                tmp += dfs(_node, str, vis + [node])
+            return tmp
+        # print(dfs(0, 'a'))
+        vis = set()
+        res = []
+        for i in range(n):
+            res.append(dfs(i, dp[i], []))
+            vis.add(i)
+            print(i, vis)
+        return res
+
+    # def countSubTrees(self, arr: List[int], target: int) -> int:
+    #     def fun(arr, l, r):
+    #         if l > r:
+    #             return -1000000000000
+    #         ans = arr[l]
+    #         for i in range(l + 1, r + 1):
+    #             ans &= arr[i]
+    #         return ans
+    #     res = float('inf')
+    #     n = len(arr)
+    #     for i in range(n):
+    #         for j in range(i, n):
+    #             res = min(res, abs(fun(arr, i, j) - target))
+    #     return res
+
+    def numOfSubarrays(self, arr: List[int]) -> int:
+        res = set()
+        n = len(arr)
+        for i in range(n):
+            tmp = 0
+            for j in range(i, n):
+                tmp += arr[j]
+                print(arr[i], arr[j], tmp)
+                if tmp % 2:
+                    res.add(tmp)
+            print()
+        print(res)
+        return len(res) % (10 * 9 + 7)
+
+    def numSplits(self, s: str) -> int:
+        n = len(s)
+        if n == 1:
+            return 0
+        sss = s[::-1]
+        dp1 = []
+        dp2 = []
+        for i in range(n):
+            if not dp1:
+                ss = set()
+            else:
+                ss = dp1[-1].copy()
+            ss.add(s[i])
+            dp1.append(ss)
+            if not dp2:
+                ss = set()
+            else:
+                ss = dp2[-1].copy()
+            ss.add(sss[i])
+            dp2.append(ss)
+            print(dp1, dp2)
+        count = 0
+        for i in range(1, n - 1):
+            print(dp1[i], dp2[n - 1 - i])
+            if len(dp1[i]) == len(dp2[n - 2 - i]):
+                count += 1
+        return count
+
+
+    def minNumberOperations(self, target: List[int]) -> int:
+        peak = 0
+        count = 0
+        vally = []
+        n = len(target)
+        if n == 1:
+            return target[0]
+        if n == 2:
+            return max(target)
+        target = [0] + target + [0]
+        for i in range(n + 1):
+            if target[i] > target[i - 1] and target[i] > target[i + 1]:
+                peak += target[i]
+                count += 1
+            if target[i] < target[i - 1] and target[i] < target[i + 1]:
+                vally.append(target[i])
+        print(peak, count, vally)
+        if not count:
+            return max(target)
+        if count == 1:
+            return peak
+        return peak - 1
+
+    def getWinner(self, arr: List[int], k: int) -> int:
+        from collections import deque, defaultdict
+        mm = max(arr)
+        dq = deque(arr)
+        d = defaultdict(int)
+        while True:
+            a1, a2 = dq.popleft(), dq.popleft()
+            a_max, a_min = max(a1, a2), min(a1, a2)
+            if a_max == mm:
+                return mm
+            dq.appendleft(a_max)
+            dq.append(a_min)
+            d[a_max] += 1
+            d[a_min] = 0
+            if d[a_max] == k:
+                return a_max
+        
+    def minSwaps(self, grid: List[List[int]]) -> int:
+        from collections import defaultdict
+        d = defaultdict(list)
+        n = len(grid)
+        for j in range(n):
+            line = grid[j]
+            zero = 0
+            for i in range(n - 1, -1, -1):
+                if line[i] == 0:
+                    zero += 1
+                else:
+                    break
+            d[zero].append(j)
+        print(d)
+        if len(d) != n:
+            return -1
+        res = 0
+        for i in range(n):
+            if d[i] != n - i:
+                for j in range(i + 1, n):
+                    pass
+
+
+    def maxSum(self, nums1: List[int], nums2: List[int]) -> int:
+        from collections import defaultdict
+        MOD = 10 ** 9 + 7
+        h = lambda lst: [0] + lst + [-1]
+        common = set(nums1) & set(nums2)
+        nums1, nums2 = map(h, (nums1, nums2))
+        s = 0
+        def helper(lst):
+            d = defaultdict(int)
+            t = 0
+            for n in lst:
+                t += n
+                if n in common:
+                    d[n] = t
+                    t = 0
+            d[-1] += 1
+            return d
+        d1, d2 = map(helper, (nums1, nums2))
+
+        for i in common:
+            s += max(d1[i], d2[i])
+
+        return s % MOD
+
+    def findKthPositive(self, arr: List[int], k: int) -> int:
+        n = len(arr)
+        res = 1
+        i = 0
+        while k and i < n:
+            if res != arr[i]:
+                k -= 1
+                if k == 0:
+                    return res
+                res += 1
+                print(1, res, arr[i], k)
+            else:
+                res += 1
+                print(2, res, arr[i], k)
+                i += 1
+        return res + k - 1
+
+    def longestAwesome(self, s: str) -> int:
+        dp = [0] * 10
+        state = {
+            0: dp
+        }
+        res_n = 0
+        n = len(s)
+        count = lambda ls1, ls2, n: [ls1[i] ^ ls2[i] for i in range(n)]
+        vaild = lambda lst: lst.count(1) <= 1
+        for i in range(n):
+            char = s[i]
+            dp[ord(char) - ord('0')] ^= 1
+            state[i + 1] = dp
+            if vaild(count(state[i + 1], state[i], n)):
+                res_n = max(res_n, i)
+        print(res_n)
+        # for k in state:
+        #     print(k, state[k])
+        for i in range(n - 1):
+            for j in range(i + 1, n):
+                pass
+
+    def makeGood(self, s: str) -> str:
+        stack = []
+        for char in s:
+            if not stack:
+                stack.append(char)
+            else:
+                tmp = stack[-1]
+                if abs(ord(tmp) - ord(char)) == 32:
+                    stack.pop()
+                else:
+                    stack.append(char)
+        return ''.join(stack)
+
+    def findKthBit(self, n: int, k: int) -> str:
+        if n == 1 and k == 1:
+            return '0'
+        len_n = 2 ** n - 1
+        mid = (len_n - 1) / 2 + 1
+        # print(k, mid)
+        if k == mid:
+            return '1'
+        if k > mid:
+            tmp = self.findKthBit(n, len_n - k + 1)
+            if tmp == '0':
+                return '1'
+            else:
+                return '0'
+        if k < mid:
+            return self.findKthBit(n - 1, k)
+
+    def maxNonOverlapping(self, nums: List[int], target: int) -> int:
+        res = 0
+
+        return res
+
+    def minOperations(self, n: int) -> int:
+        f = lambda x: x * (x + 1) // 2
+        flag = n & 1
+        if flag:
+            left = (n - 1) // 2
+            return 2 * f(left)
+        else:
+            left = n // 2
+            return f(left) * 2 - left
+
+    def minDays(self, n: int) -> int:
+        dp = [float('inf')] * (n + 1)
+        dp[0] = 0
+        dp[1] = 1
+        for i in range(2, n + 1):
+            bmw = i % 6
+            if bmw == 0:
+                dp[i] = min(dp[i], 1 + dp[i - i // 2], 1 + dp[i - 2 * i // 3])
+            elif bmw == 2:
+                dp[i] = min(dp[i], 1 + dp[i - i // 2])
+            elif bmw == 3:
+                dp[i] = min(dp[i], 1 + dp[i - 2 * i // 3])
+            else:
+                dp[i] = 1 + dp[i - 1]
+        print(dp)
+        return dp[n]
+
+    def maxDistance(self, position: List[int], m: int) -> int:
+        position.sort()
+        n = len(position)
+        if n == 2:
+            return position[-1] - position[0]
+        return 1
+    
+    def mostVisited(self, n: int, rounds: List[int]) -> List[int]:
+        dp = [0] * n
+        dp[rounds[0] - 1] = 1
+        for i in range(len(rounds) - 1):
+            _1, _2 = rounds[i: i + 2]
+            print(_1, _2)
+            if _2 > _1:
+                for j in range(_1, _2):
+                    dp[j] += 1
+            else:
+                for j in range(_1, n):
+                    dp[j] += 1
+                for j in range(_2):
+                    dp[j] += 1
+            print(dp)
+        m = max(dp)
+        return [i + 1 for i in range(n) if dp[i] == m]
+
+    def maxCoins(self, piles: List[int]) -> int:
+        n = len(piles) // 3
+        piles.sort()
+        s = 0
+        for i in range(n, 3 * n, 2):
+            s += piles[i]
+        return s
+
+    def findLatestStep(self, arr: List[int], m: int) -> int:
+        n = len(arr)
+        res = []
+        d = {}
+        for _ in range(n):
+            i = arr[_]
+            if i not in d:
+                d[i] = 1
+            if i + 1 in d and i - 1 not in d:
+                d[i] = d[i + 1] + 1
+                d[i + 1] = d[i]
+            if i - 1 in d and i + 1 not in d:
+                d[i] = d[i - 1] + 1
+                d[i - 1] = d[i]
+            if i - 1 in d and i + 1 in d:
+                d[i] = 1 + d[i - 1] + d[i + 1]
+                d[i + 1] = d[i - 1] = d[i]
+            if d[i] == m:
+                res.append(i)
+            while res and res[0] > m:
+                res = res[1:]
+            
+            print(i, d, res)
+        return 1
+
+    def make_cancellation(self , content , bomb):
+        import re
+        p = re.findall(r'((.)\2{1})', content)
+        bomb = str(bomb)
+        while p:
+            for b, n in p:
+                if n != bomb:
+                    content = content.replace(b, '')
+            p = re.findall(r'((\d)\2{1})', content)
+            tmp = []
+            for b, n in p:
+                if n != bomb:
+                    tmp.append((b, n))
+            p = tmp
+        bb = bomb * 2
+        if bb not in content:
+            return content
+        while bb in content:
+            i = content.index(bb)
+            content = content.replace(content[max(0, i - 1): i + 3], '')
+        return content
+    
+a = Solution().make_cancellation(
+    "111255aabbc", 1
 )
 p(a)

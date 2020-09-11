@@ -1,7 +1,7 @@
 
 # LeetCode progress
 
-[![](https://img.shields.io/badge/LeetCode-284/1303-yellow.svg?style=social&logo=leetcode)](https://leetcode-cn.com/u/ltcccc/)
+[![](https://img.shields.io/badge/LeetCode-283/1303-yellow.svg?style=social&logo=leetcode)](https://leetcode-cn.com/u/ltcccc/)
 
 ![](https://img.shields.io/github/commit-activity/m/ltc1996/leetcode)
 ![](https://img.shields.io/github/last-commit/ltc1996/leetcode)
@@ -57,6 +57,7 @@
 |  199 | [二叉树的右视图](中等/0199%20二叉树的右视图.md) | **C++/Python** | 中等 |
 |  213 | [打家劫舍II](中等/0213%20打家劫舍II.md) | **Python** | 中等 |
 |  215 | [数组中的第K个最大元素](中等/0215%20数组中的第K个最大元素.md) | **Python** | 中等 |
+|  217 | [组合总和 III](中等/0217%20组合总和 III.md) | **C++/Python** | 中等 |
 |  222 | [完全二叉树的节点个数](中等/0222%20完全二叉树的节点个数.md) | **C/C++/C#/Java/JavaScript/Python/Ruby/Go/Swift** | 中等 |
 |  223 | [矩形面积](中等/0223%20矩形面积.md) | **Python** | 中等 |
 |  228 | [汇总区间](中等/0228%20汇总区间.md) | **Python** | 中等 |

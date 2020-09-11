@@ -382,12 +382,12 @@ def main():
             # print(record_curr)
             # print(progress_dict)
             set_readme(record_curr, len(files))
-            # if untrack:
-            #     # 添加暂存
-            #     add_file(untrack)
-            # commit(files)
-            # push()
-            # log('done', 2)
+            if untrack:
+                # 添加暂存
+                add_file(untrack)
+            commit(files)
+            push()
+            log('done', 2)
         else:
             log('提交取消', 1)
             # print('提交取消 ×')
